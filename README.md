@@ -116,15 +116,15 @@ Think Figma or Lucidchart, but the output is working infrastructure-as-code inst
 **Current Phase:** Week 2 — Building custom AWS nodes and property panels
 
 **Completed:**
-- ✅ Docker Compose orchestration (frontend + Go + Python)
-- ✅ React Flow canvas with draggable nodes and edges
-- ✅ Custom AWS resource node components
-- ✅ Basic node styling and connection handles
+-  Docker Compose orchestration (frontend + Go + Python)
+-  React Flow canvas with draggable nodes and edges
+-  Custom AWS resource node components
+-  Basic node styling and connection handles
 
 **In Progress:**
-- 🚧 Sidebar with 10 AWS resource types
-- 🚧 Drag-from-sidebar to canvas
-- 🚧 Property panel for configuring resources
+-  Sidebar with 10 AWS resource types
+-  Drag-from-sidebar to canvas
+-  Property panel for configuring resources
 
 **Upcoming (Week 3-7):**
 - Canvas JSON serialization
@@ -229,45 +229,4 @@ uvicorn main:app --reload
 
 ---
 
-## Why This Project Matters
-
-Infrastructure-as-code is powerful but has a steep learning curve. Most developers learn Terraform by:
-1. Reading documentation
-2. Copy-pasting examples
-3. Running `terraform apply`
-4. Breaking things
-5. Debugging cryptic error messages
-
-Terrarium inverts this. You design visually (which humans are good at), get instant feedback (via AI validation), and learn Terraform by seeing what your diagram generates. It's a teaching tool as much as a productivity tool.
-
-For experienced practitioners, it's a faster way to scaffold new architectures, catch mistakes before they hit production, and generate boilerplate that would take 30+ minutes to write by hand.
-
----
-
-## Contributing
-
-This is currently a solo portfolio project, but contributions are welcome once the core features ship. Areas where help would be valuable:
-- Additional AWS resource types beyond the initial 20
-- Azure and GCP resource definitions
-- UI/UX improvements and design system work
-- Documentation and tutorials
-- Bug reports and feature requests
-
----
-
-## License
-
-MIT License — see LICENSE file for details
-
----
-
-## Acknowledgments
-
-- **React Flow** for the excellent graph visualization library
-- **Anthropic** for Claude and the AI capabilities that make this possible
-- **HashiCorp** for Terraform
-- **AWS** for publishing their architecture icons under a permissive license
-
----
-
-**Built by a junior developer learning Go, Python agentic patterns, and cloud infrastructure — feedback and suggestions welcome.**
+**Built by a junior developer learning Go, Python agentic patterns, and cloud infrastructure. Any feedback and suggestions are welcome.**
