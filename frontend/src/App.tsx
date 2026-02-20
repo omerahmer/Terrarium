@@ -16,21 +16,42 @@ import {
   Controls,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
+import EC2Icon from "./assets/icons/Resource-Icons_01302026/Res_Compute/Res_Amazon-EC2_AMI_48.svg";
+import ALBIcon from "./assets/icons/Resource-Icons_01302026/Res_Networking-Content-Delivery/Res_Elastic-Load-Balancing_Application-Load-Balancer_48.svg";
+import AWSNode from "./components/AWSNode";
+
+const nodeTypes = {
+  "aws-resource": AWSNode,
+};
 
 const initialNodes: Node[] = [
   {
-    id: "1",
-    data: { label: "Node 1" },
+    id: "ec2-1",
+    type: "aws-resource",
+    data: { label: "EC2 server", resourceType: "aws-ec2", icon: EC2Icon },
     position: { x: 5, y: 5 },
   },
   {
-    id: "2",
-    data: { label: "Node 2" },
-    position: { x: 5, y: 100 },
+    id: "ec2-2",
+    type: "aws-resource",
+    data: { label: "EC2 server", resourceType: "aws-ec2", icon: EC2Icon },
+    position: { x: 5, y: 5 },
+  },
+  {
+    id: "ec2-3",
+    type: "aws-resource",
+    data: { label: "EC2 server", resourceType: "aws-ec2", icon: EC2Icon },
+    position: { x: 5, y: 5 },
+  },
+  {
+    id: "alb-1",
+    type: "aws-resource",
+    data: { label: "ALB", resourceType: "aws-alb", icon: ALBIcon },
+    position: { x: 5, y: 200 },
   },
 ];
 
-const initialEdges: Edge[] = [{ id: "e1-2", source: "1", target: "2" }];
+const initialEdges: Edge[] = [];
 
 const fitViewOptions: FitViewOptions = {
   padding: 0.2,
@@ -66,6 +87,7 @@ export default function Flow() {
       <ReactFlow
         nodes={nodes}
         edges={edges}
+        nodeTypes={nodeTypes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
