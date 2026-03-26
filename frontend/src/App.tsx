@@ -19,6 +19,7 @@ import "@xyflow/react/dist/style.css";
 import EC2Icon from "./assets/icons/Resource-Icons_01302026/Res_Compute/Res_Amazon-EC2_AMI_48.svg";
 import ALBIcon from "./assets/icons/Resource-Icons_01302026/Res_Networking-Content-Delivery/Res_Elastic-Load-Balancing_Application-Load-Balancer_48.svg";
 import AWSNode from "./components/AWSNode";
+import Sidebar from "./components/Sidebar";
 
 const nodeTypes = {
   "aws-resource": AWSNode,
@@ -29,25 +30,25 @@ const initialNodes: Node[] = [
     id: "ec2-1",
     type: "aws-resource",
     data: { label: "EC2 server", resourceType: "aws-ec2", icon: EC2Icon },
-    position: { x: 5, y: 5 },
+    position: { x: 0, y: 0 },
   },
   {
     id: "ec2-2",
     type: "aws-resource",
     data: { label: "EC2 server", resourceType: "aws-ec2", icon: EC2Icon },
-    position: { x: 5, y: 5 },
+    position: { x: 200, y: 0 },
   },
   {
     id: "ec2-3",
     type: "aws-resource",
     data: { label: "EC2 server", resourceType: "aws-ec2", icon: EC2Icon },
-    position: { x: 5, y: 5 },
+    position: { x: 400, y: 0 },
   },
   {
     id: "alb-1",
     type: "aws-resource",
     data: { label: "ALB", resourceType: "aws-alb", icon: ALBIcon },
-    position: { x: 5, y: 200 },
+    position: { x: 200, y: 200 },
   },
 ];
 
@@ -84,6 +85,7 @@ export default function Flow() {
 
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
+      <Sidebar />
       <ReactFlow
         nodes={nodes}
         edges={edges}
