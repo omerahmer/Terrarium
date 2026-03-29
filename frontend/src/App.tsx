@@ -20,8 +20,6 @@ import {
 } from "@xyflow/react";
 import { useState } from "react";
 import "@xyflow/react/dist/style.css";
-import EC2Icon from "./assets/icons/Resource-Icons_01302026/Res_Compute/Res_Amazon-EC2_AMI_48.svg";
-import ALBIcon from "./assets/icons/Resource-Icons_01302026/Res_Networking-Content-Delivery/Res_Elastic-Load-Balancing_Application-Load-Balancer_48.svg";
 import AWSNode from "./components/AWSNode";
 import PropertyPanel from "./components/PropertyPanel";
 import AppSidebar from "./components/Sidebar";
@@ -32,10 +30,43 @@ import {
 } from "@/components/ui/sidebar";
 import { ThemeProvider } from "./components/theme-provider";
 import { ModeToggle } from "./components/mode-toggle";
+import { Toaster } from "@/components/ui/sonner";
+import { loadCanvas, saveCanvas } from "./lib/canvas-storage";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const nodeTypes = {
   "aws-resource": AWSNode,
 };
+
+/* const initialNodes: Node[] = [
+  {
+    id: "ec2-1",
+    type: "aws-resource",
+    data: { label: "EC2 server", resourceType: "aws-ec2", icon: EC2Icon },
+    position: { x: 0, y: 0 },
+  },
+  {
+    id: "ec2-2",
+    type: "aws-resource",
+    data: { label: "EC2 server", resourceType: "aws-ec2", icon: EC2Icon },
+    position: { x: 200, y: 0 },
+  },
+  {
+    id: "ec2-3",
+    type: "aws-resource",
+    data: { label: "EC2 server", resourceType: "aws-ec2", icon: EC2Icon },
+    position: { x: 400, y: 0 },
+  },
+  {
+    id: "alb-1",
+    type: "aws-resource",
+    data: { label: "ALB", resourceType: "aws-alb", icon: ALBIcon },
+    position: { x: 200, y: 200 },
+  },
+  ];*/
+
+// const initialEdges: Edge[] = [];
 
 const fitViewOptions: FitViewOptions = {
   padding: 0.2,
@@ -50,8 +81,9 @@ const onNodeDrag: OnNodeDrag = (_, node) => {
 };
 
 function FlowCanvas() {
-  const [nodes, setNodes] = useState<Node[]>();
-  const [edges, setEdges] = useState<Edge[]>();
+  const [nodes, setNodes] = useState<Node[]>(() => loadCanvas()?.nodes ?? []);
+  const [edges, setEdges] = useState<Edge[]>(() => loadCanvas()?.edges ?? []);
+
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
 
   const onSelectionChange = useCallback(
@@ -61,10 +93,17 @@ function FlowCanvas() {
     [],
   );
 
-  const onNodesChange: OnNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    [],
-  );
+  const onNodesChange: OnNodesChange = useCallback((changes) => {
+    setNodes((nds) => {
+      const updated = applyNodeChanges(changes, nds) ?? nds;
+      setSelectedNode((sel) => {
+        if (!sel) return null;
+        const synced = updated.find((n) => n.id === sel.id);
+        return synced ?? sel;
+      });
+      return updated;
+    });
+  }, []);
   const onEdgesChange: OnEdgesChange = useCallback(
     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
     [],
@@ -110,9 +149,19 @@ function FlowCanvas() {
     <SidebarProvider defaultOpen={true}>
       <AppSidebar />
       <SidebarInset className="relative">
-        <div className="absolute top-3 left-3 z-10">
+        <div className="absolute top-3 left-3 z-10 flex items-center gap-2">
           <SidebarTrigger />
           <ModeToggle />
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => {
+              saveCanvas(nodes, edges);
+              toast.success("Canvas saved!");
+            }}
+          >
+            Save
+          </Button>
         </div>
 
         <div
@@ -158,6 +207,7 @@ export default function App() {
       <ReactFlowProvider>
         <FlowCanvas />
       </ReactFlowProvider>
+      <Toaster />
     </ThemeProvider>
   );
 }
