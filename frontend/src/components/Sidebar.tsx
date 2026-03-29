@@ -1,5 +1,20 @@
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "@/components/ui/sidebar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { awsResources } from "@/lib/aws-resources";
-import { ScrollArea } from "./ui/scroll-area";
 
 const groupedResources = awsResources.reduce<
   Record<string, (typeof awsResources)[number][]>
@@ -10,49 +25,70 @@ const groupedResources = awsResources.reduce<
   return acc;
 }, {});
 
-export default function Sidebar() {
-  const handleDragStart = (
-    event: React.DragEvent,
-    resource: (typeof awsResources)[number],
-  ) => {
+function ResourceItem({
+  resource,
+}: {
+  resource: (typeof awsResources)[number];
+}) {
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
+
+  const handleDragStart = (event: React.DragEvent) => {
     event.dataTransfer.setData("application/reactflow", resource.id);
     event.dataTransfer.setData("resourceLabel", resource.label);
     event.dataTransfer.setData("resourceIcon", resource.icon);
+    event.dataTransfer.effectAllowed = "move";
   };
 
+  const button = (
+    <SidebarMenuButton
+      draggable
+      onDragStart={handleDragStart}
+      className="cursor-grab active:cursor-grabbing h-auto py-1.5 border border-border rounded-md"
+      tooltip={resource.label}
+    >
+      <img
+        src={resource.icon}
+        alt={resource.label}
+        className="size-6 shrink-0 pointer-events-none"
+      />
+      <span className="pointer-events-none truncate">{resource.label}</span>
+    </SidebarMenuButton>
+  );
+
+  if (isCollapsed) {
+    return (
+      <SidebarMenuItem>
+        <Tooltip>
+          <TooltipTrigger asChild>{button}</TooltipTrigger>
+          <TooltipContent side="right">{resource.label}</TooltipContent>
+        </Tooltip>
+      </SidebarMenuItem>
+    );
+  }
+
+  return <SidebarMenuItem>{button}</SidebarMenuItem>;
+}
+
+export default function AppSidebar() {
   return (
-    <div className="fixed left-0 top-0 w-60 h-screen bg-slate-800 border-r border-slate-600 p-4 z-10">
-      <div className="text-gray-200 text-lg font-bold mb-4">AWS Resources</div>
-
-      <ScrollArea className="h-[calc(100vh-60px)]">
+    <Sidebar variant="floating" collapsible="icon">
+      <SidebarContent>
         {Object.entries(groupedResources).map(([category, resources]) => (
-          <div key={category} className="mb-6">
-            <h3 className="text-slate-400 text-xs uppercase mb-2">
+          <SidebarGroup key={category}>
+            <SidebarGroupLabel className="text-lg pb-6 pt-4 pl-2">
               {category}
-            </h3>
-
-            <div>
-              {resources.map((resource) => (
-                <div
-                  key={resource.id}
-                  draggable={true}
-                  onDragStart={(event) => handleDragStart(event, resource)}
-                  className="mb-2 cursor-grab p-3 bg-slate-700 rounded-lg border border-slate-600 flex items-center gap-2 hover:bg-slate-600 active:cursor-grabbing"
-                >
-                  <img
-                    src={resource.icon}
-                    alt={resource.label}
-                    className="w-8 h-8 pointer-events-none"
-                  />
-                  <span className="text-gray-200 text-sm pointer-events-none">
-                    {resource.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {resources.map((resource) => (
+                  <ResourceItem key={resource.id} resource={resource} />
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
         ))}
-      </ScrollArea>
-    </div>
+      </SidebarContent>
+    </Sidebar>
   );
 }
