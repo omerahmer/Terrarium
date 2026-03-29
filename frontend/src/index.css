@@ -115,10 +115,31 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+    * {
+        @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
+    body {
+        @apply bg-background text-foreground;
     }
+}
+
+/* React Flow dark mode overrides */
+.dark .react-flow__controls {
+    background-color: var(--card);
+    border-color: var(--border);
+}
+
+.dark .react-flow__controls-button {
+    background-color: var(--card);
+    border-color: var(--border);
+    color: var(--foreground);
+    fill: var(--foreground);
+}
+
+.dark .react-flow__controls-button:hover {
+    background-color: var(--accent);
+}
+
+.dark .react-flow__controls-button svg {
+    fill: var(--foreground);
 }
