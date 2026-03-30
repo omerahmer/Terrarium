@@ -1,4 +1,28 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
+
+
+class NodeData(BaseModel):
+    label: str
+    resourceType: str
+
+
+class CanvasNode(BaseModel):
+    id: str
+    data: NodeData
+    parentId: str | None
+
+
+class CanvasEdge(BaseModel):
+    id: str
+    source: str
+    target: str
+
+
+class GenerateRequest(BaseModel):
+    nodes: list[CanvasNode]
+    edges: list[CanvasEdge]
+
 
 app = FastAPI()
 
@@ -14,7 +38,7 @@ async def health():
 
 
 @app.post("/generate")
-async def generate(body: dict):
+async def generate(body: GenerateRequest):
     return {"hcl": "# terraform will be generated here", "validated": False}
 
 
