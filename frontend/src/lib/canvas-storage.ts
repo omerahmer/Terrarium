@@ -1,4 +1,14 @@
 import type { Edge, Node } from "@xyflow/react";
+
+interface SavedNode {
+  id: string;
+  type: string;
+  position: { x: number; y: number };
+  data: {
+    label: string;
+    resourceType: string;
+  };
+}
 import { awsResources } from "./aws-resources";
 
 const STORAGE_KEY = "terrarium-canvas" as const;
@@ -32,7 +42,7 @@ export function loadCanvas(): { nodes: Node[]; edges: Edge[] } | null {
 
   try {
     const data = JSON.parse(raw);
-    const nodes: Node[] = data.nodes.map((saved: any) => {
+    const nodes: Node[] = data.nodes.map((saved: SavedNode) => {
       const resource = awsResources.find(
         (r) => r.id === saved.data.resourceType,
       );
