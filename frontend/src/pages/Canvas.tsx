@@ -120,18 +120,29 @@ function FlowCanvas() {
   return (
     <SidebarProvider defaultOpen={true}>
       <AppSidebar />
-      <SidebarInset className="relative">
-        <div className="absolute top-3 left-3 z-10 flex items-center gap-2">
+      <SidebarInset className="flex flex-col h-screen">
+        {/* Header */}
+        <header className="shrink-0 h-12 border-b border-border bg-background/80 backdrop-blur-sm flex items-center gap-2 px-3 z-10">
+          {/* Logo — links back to landing */}
           <Link
             to="/"
-            className="flex items-center gap-1.5 text-sm font-semibold text-foreground mr-1"
+            className="flex items-center gap-2 font-semibold text-foreground"
           >
             <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
               <Leaf className="size-3.5" />
             </div>
+            <span className="text-sm tracking-tight">Terrarium</span>
           </Link>
+
+          <div className="w-px h-4 bg-border mx-1" />
+
           <SidebarTrigger />
           <ModeToggle />
+
+          {/* Spacer */}
+          <div className="flex-1" />
+
+          {/* Actions */}
           <Button
             size="sm"
             variant="outline"
@@ -142,10 +153,11 @@ function FlowCanvas() {
           >
             Save
           </Button>
-        </div>
+        </header>
 
+        {/* Canvas fills remaining height */}
         <div
-          className="w-full h-screen"
+          className="flex-1 relative overflow-hidden"
           onDrop={onDrop}
           onDragOver={onDragOver}
         >
