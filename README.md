@@ -109,34 +109,6 @@ Think Figma or Lucidchart, but the output is working infrastructure-as-code inst
 - **Vercel** — frontend deployment (planned)
 - **Railway/Render** — backend deployment (planned)
 
----
-
-## Project Status
-
-**Current Phase:** Week 2 — Building custom AWS nodes and property panels
-
-**Completed:**
--  Docker Compose orchestration (frontend + Go + Python)
--  React Flow canvas with draggable nodes and edges
--  Custom AWS resource node components
--  Basic node styling and connection handles
-
-**In Progress:**
--  Sidebar with 10 AWS resource types
--  Drag-from-sidebar to canvas
--  Property panel for configuring resources
-
-**Upcoming (Week 3-7):**
-- Canvas JSON serialization
-- Claude integration for Terraform generation
-- LangGraph validation agent (generate → validate → fix loop)
-- LangGraph architecture review agent
-- Monaco editor code preview panel
-- Save/load architecture diagrams
-- Pre-built architecture templates
-
----
-
 ## Getting Started
 
 ### Prerequisites
@@ -228,5 +200,3 @@ uvicorn main:app --reload
 - Optional sandboxed `terraform apply` with user-provided credentials
 
 ---
-
-**Built by a junior developer learning Go, Python agentic patterns, and cloud infrastructure. Any feedback and suggestions are welcome.**
