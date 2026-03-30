@@ -4,10 +4,6 @@ type EC2Node = Node<
   { label: string; resourceType: "aws-ec2"; icon: string },
   "aws-resource"
 >;
-type VPCNode = Node<
-  { label: string; resourceType: "aws-vpc"; icon: string },
-  "aws-resource"
->;
 
 type S3Node = Node<
   { label: string; resourceType: "aws-s3"; icon: string },
@@ -106,7 +102,6 @@ type SecurityGroupNode = Node<
 
 type AWSResourceNode =
   | EC2Node
-  | VPCNode
   | S3Node
   | RDSNode
   | LambdaNode

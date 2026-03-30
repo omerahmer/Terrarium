@@ -21,6 +21,7 @@ import {
 import { useState } from "react";
 import "@xyflow/react/dist/style.css";
 import AWSNode from "@/components/AWSNode";
+import VPCNode from "@/components/VPCNode";
 import PropertyPanel from "@/components/PropertyPanel";
 import AppSidebar from "@/components/Sidebar";
 import {
@@ -37,6 +38,7 @@ import { Leaf } from "lucide-react";
 
 const nodeTypes = {
   "aws-resource": AWSNode,
+  "vpc-container": VPCNode,
 };
 
 const fitViewOptions: FitViewOptions = {
@@ -51,8 +53,20 @@ const onNodeDrag: OnNodeDrag = (_, node) => {
   console.log("drag event", node.data);
 };
 
+// React Flow requires parent nodes to appear before their children in the array.
+// Without this sort, dragging a VPC won't move its children correctly.
+function sortNodes(nodes: Node[]): Node[] {
+  return [...nodes].sort((a, b) => {
+    if (!a.parentId && b.parentId) return -1;
+    if (a.parentId && !b.parentId) return 1;
+    return 0;
+  });
+}
+
 function FlowCanvas() {
-  const [nodes, setNodes] = useState<Node[]>(() => loadCanvas()?.nodes ?? []);
+  const [nodes, setNodes] = useState<Node[]>(() =>
+    sortNodes(loadCanvas()?.nodes ?? []),
+  );
   const [edges, setEdges] = useState<Edge[]>(() => loadCanvas()?.edges ?? []);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
 
@@ -106,13 +120,86 @@ function FlowCanvas() {
       const label = event.dataTransfer.getData("resourceLabel");
       const icon = event.dataTransfer.getData("resourceIcon");
 
-      const newNode: Node = {
-        id: `${resourceType}-${Date.now()}`,
-        type: "aws-resource",
-        position,
-        data: { label, resourceType, icon },
-      };
-      setNodes((nds) => nds.concat(newNode));
+      // VPC gets its own container node type with a default size
+      if (resourceType === "aws-vpc") {
+        const vpcId = `aws-vpc-${Date.now()}`;
+        const vpcWidth = 420;
+        const vpcHeight = 300;
+
+        const vpcNode: Node = {
+          id: vpcId,
+          type: "vpc-container",
+          position,
+          width: vpcWidth,
+          height: vpcHeight,
+          style: { width: vpcWidth, height: vpcHeight },
+          data: { label, resourceType, icon },
+        };
+
+        setNodes((nds) => {
+          // Adopt any existing non-VPC nodes that fall within the new VPC's bounds
+          const adopted = nds.map((n) => {
+            // Skip other VPC containers and nodes already owned by a VPC
+            if (n.type === "vpc-container" || n.parentId) return n;
+
+            const nodeX = n.position.x;
+            const nodeY = n.position.y;
+            const insideX =
+              nodeX >= position.x && nodeX <= position.x + vpcWidth;
+            const insideY =
+              nodeY >= position.y && nodeY <= position.y + vpcHeight;
+
+            if (!insideX || !insideY) return n;
+
+            // Convert absolute position to relative position within the VPC
+            return {
+              ...n,
+              parentId: vpcId,
+              extent: "parent" as const,
+              position: {
+                x: nodeX - position.x,
+                y: nodeY - position.y,
+              },
+            };
+          });
+
+          return sortNodes(adopted.concat(vpcNode));
+        });
+        return;
+      }
+
+      // For all other resources, check if drop landed inside a VPC container
+      setNodes((nds) => {
+        const parentVPC = nds.find((n) => {
+          if (n.type !== "vpc-container") return false;
+          const width = n.width ?? (n.style?.width as number) ?? 420;
+          const height = n.height ?? (n.style?.height as number) ?? 300;
+          return (
+            position.x >= n.position.x &&
+            position.x <= n.position.x + width &&
+            position.y >= n.position.y &&
+            position.y <= n.position.y + height
+          );
+        });
+
+        const newNode: Node = {
+          id: `${resourceType}-${Date.now()}`,
+          type: "aws-resource",
+          position: parentVPC
+            ? {
+                x: position.x - parentVPC.position.x,
+                y: position.y - parentVPC.position.y,
+              }
+            : position,
+          ...(parentVPC && {
+            parentId: parentVPC.id,
+            extent: "parent" as const,
+          }),
+          data: { label, resourceType, icon },
+        };
+
+        return sortNodes(nds.concat(newNode));
+      });
     },
     [screenToFlowPosition],
   );
