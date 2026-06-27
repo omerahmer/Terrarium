@@ -1,0 +1,3239 @@
+{
+  "aws-vpc": {
+    "tf_type": "aws_vpc",
+    "fields": [
+      {
+        "name": "assign_generated_ipv6_cidr_block",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "cidr_block",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_dns_hostnames",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_dns_support",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_network_address_usage_metrics",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "instance_tenancy",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ipv4_ipam_pool_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ipv4_netmask_length",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ipv6_cidr_block",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ipv6_cidr_block_network_border_group",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ipv6_ipam_pool_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ipv6_netmask_length",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-subnet": {
+    "tf_type": "aws_subnet",
+    "fields": [
+      {
+        "name": "assign_ipv6_address_on_creation",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "availability_zone",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "availability_zone_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "cidr_block",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "customer_owned_ipv4_pool",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_dns64",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_lni_at_device_index",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_resource_name_dns_a_record_on_launch",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_resource_name_dns_aaaa_record_on_launch",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ipv6_cidr_block",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ipv6_native",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "map_customer_owned_ip_on_launch",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "map_public_ip_on_launch",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "outpost_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "private_dns_hostname_type_on_launch",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "vpc_id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ]
+  },
+  "aws-security-group": {
+    "tf_type": "aws_security_group",
+    "fields": [
+      {
+        "name": "description",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "egress",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ingress",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name_prefix",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "revoke_rules_on_delete",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "vpc_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-internet-gateway": {
+    "tf_type": "aws_internet_gateway",
+    "fields": [
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "vpc_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-nat-gateway": {
+    "tf_type": "aws_nat_gateway",
+    "fields": [
+      {
+        "name": "allocation_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "connectivity_type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "private_ip",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "secondary_allocation_ids",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "secondary_private_ip_address_count",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "secondary_private_ip_addresses",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "subnet_id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-vpc-endpoint": {
+    "tf_type": "aws_vpc_endpoint",
+    "fields": [
+      {
+        "name": "auto_accept",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ip_address_type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "policy",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "private_dns_enabled",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "resource_configuration_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "route_table_ids",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "security_group_ids",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "service_name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "service_network_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "service_region",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "subnet_ids",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "vpc_endpoint_type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "vpc_id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ]
+  },
+  "aws-network-acl": {
+    "tf_type": "aws_network_acl",
+    "fields": [
+      {
+        "name": "egress",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ingress",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "subnet_ids",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "vpc_id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ]
+  },
+  "aws-ec2": {
+    "tf_type": "aws_instance",
+    "fields": [
+      {
+        "name": "ami",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "associate_public_ip_address",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "availability_zone",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "cpu_core_count",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "cpu_threads_per_core",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "disable_api_stop",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "disable_api_termination",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ebs_optimized",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_primary_ipv6",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "get_password_data",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "hibernation",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "host_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "host_resource_group_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "iam_instance_profile",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "instance_initiated_shutdown_behavior",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "instance_type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ipv6_address_count",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ipv6_addresses",
+        "type": "list",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "key_name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "monitoring",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "placement_group",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "placement_partition_number",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "private_ip",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "secondary_private_ips",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "security_groups",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "source_dest_check",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "subnet_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tenancy",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "user_data",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "user_data_base64",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "user_data_replace_on_change",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "volume_tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "vpc_security_group_ids",
+        "type": "set",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-lambda": {
+    "tf_type": "aws_lambda_function",
+    "fields": [
+      {
+        "name": "architectures",
+        "type": "list",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "code_signing_config_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "filename",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "function_name",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "handler",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "image_uri",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "kms_key_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "layers",
+        "type": "list",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "memory_size",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "package_type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "publish",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "replace_security_groups_on_destroy",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "replacement_security_group_ids",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "reserved_concurrent_executions",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "role",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "runtime",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "s3_bucket",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "s3_key",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "s3_object_version",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "skip_destroy",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "source_code_hash",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "timeout",
+        "type": "number",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-ecs": {
+    "tf_type": "aws_ecs_service",
+    "fields": [
+      {
+        "name": "availability_zone_rebalancing",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "cluster",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "deployment_maximum_percent",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "deployment_minimum_healthy_percent",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "desired_count",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_ecs_managed_tags",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_execute_command",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "force_delete",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "force_new_deployment",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "health_check_grace_period_seconds",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "iam_role",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "launch_type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "platform_version",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "propagate_tags",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "scheduling_strategy",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "task_definition",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "triggers",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "wait_for_steady_state",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-ecr": {
+    "tf_type": "aws_ecr_repository",
+    "fields": [
+      {
+        "name": "force_delete",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "image_tag_mutability",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-iam": {
+    "tf_type": "aws_iam_role",
+    "fields": [
+      {
+        "name": "assume_role_policy",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "force_detach_policies",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "managed_policy_arns",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "max_session_duration",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name_prefix",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "permissions_boundary",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-cloudwatch": {
+    "tf_type": "aws_cloudwatch_metric_alarm",
+    "fields": [
+      {
+        "name": "actions_enabled",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "alarm_actions",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "alarm_description",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "alarm_name",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "comparison_operator",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "datapoints_to_alarm",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "dimensions",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "evaluate_low_sample_count_percentiles",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "evaluation_periods",
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "extended_statistic",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "insufficient_data_actions",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "metric_name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "namespace",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ok_actions",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "period",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "statistic",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "threshold",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "threshold_metric_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "treat_missing_data",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "unit",
+        "type": "string",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-sns": {
+    "tf_type": "aws_sns_topic",
+    "fields": [
+      {
+        "name": "application_failure_feedback_role_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "application_success_feedback_role_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "application_success_feedback_sample_rate",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "archive_policy",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "content_based_deduplication",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "delivery_policy",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "display_name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "fifo_throughput_scope",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "fifo_topic",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "firehose_failure_feedback_role_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "firehose_success_feedback_role_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "firehose_success_feedback_sample_rate",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "http_failure_feedback_role_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "http_success_feedback_role_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "http_success_feedback_sample_rate",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "kms_master_key_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "lambda_failure_feedback_role_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "lambda_success_feedback_role_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "lambda_success_feedback_sample_rate",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name_prefix",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "policy",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "signature_version",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "sqs_failure_feedback_role_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "sqs_success_feedback_role_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "sqs_success_feedback_sample_rate",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tracing_config",
+        "type": "string",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-sqs": {
+    "tf_type": "aws_sqs_queue",
+    "fields": [
+      {
+        "name": "content_based_deduplication",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "deduplication_scope",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "delay_seconds",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "fifo_queue",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "fifo_throughput_limit",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "kms_data_key_reuse_period_seconds",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "kms_master_key_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "max_message_size",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "message_retention_seconds",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name_prefix",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "policy",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "receive_wait_time_seconds",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "redrive_allow_policy",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "redrive_policy",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "sqs_managed_sse_enabled",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "visibility_timeout_seconds",
+        "type": "number",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-api-gateway": {
+    "tf_type": "aws_apigatewayv2_api",
+    "fields": [
+      {
+        "name": "api_key_selection_expression",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "body",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "credentials_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "disable_execute_api_endpoint",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "fail_on_warnings",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ip_address_type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "protocol_type",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "route_key",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "route_selection_expression",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "target",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "version",
+        "type": "string",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-dynamodb": {
+    "tf_type": "aws_dynamodb_table",
+    "fields": [
+      {
+        "name": "billing_mode",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "deletion_protection_enabled",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "hash_key",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "range_key",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "read_capacity",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "restore_date_time",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "restore_source_name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "restore_source_table_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "restore_to_latest_time",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "stream_enabled",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "stream_view_type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "table_class",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "write_capacity",
+        "type": "number",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-rds": {
+    "tf_type": "aws_db_instance",
+    "fields": [
+      {
+        "name": "allocated_storage",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "allow_major_version_upgrade",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "apply_immediately",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "auto_minor_version_upgrade",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "availability_zone",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "backup_retention_period",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "backup_target",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "backup_window",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ca_cert_identifier",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "character_set_name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "copy_tags_to_snapshot",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "custom_iam_instance_profile",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "customer_owned_ip_enabled",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "database_insights_mode",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "db_name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "db_subnet_group_name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "dedicated_log_volume",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "delete_automated_backups",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "deletion_protection",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "domain",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "domain_auth_secret_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "domain_dns_ips",
+        "type": "list",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "domain_fqdn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "domain_iam_role_name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "domain_ou",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enabled_cloudwatch_logs_exports",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "engine",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "engine_lifecycle_support",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "engine_version",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "final_snapshot_identifier",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "iam_database_authentication_enabled",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "identifier",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "identifier_prefix",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "instance_class",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "iops",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "kms_key_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "license_model",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "maintenance_window",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "manage_master_user_password",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "master_user_secret_kms_key_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "max_allocated_storage",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "monitoring_interval",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "monitoring_role_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "multi_az",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "nchar_character_set_name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "network_type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "option_group_name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "parameter_group_name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "password",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "password_wo",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "password_wo_version",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "performance_insights_enabled",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "performance_insights_kms_key_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "performance_insights_retention_period",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "port",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "publicly_accessible",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "replica_mode",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "replicate_source_db",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "skip_final_snapshot",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "snapshot_identifier",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "storage_encrypted",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "storage_throughput",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "storage_type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "timezone",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "upgrade_storage_config",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "username",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "vpc_security_group_ids",
+        "type": "set",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-elasticache": {
+    "tf_type": "aws_elasticache_cluster",
+    "fields": [
+      {
+        "name": "apply_immediately",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "auto_minor_version_upgrade",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "availability_zone",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "az_mode",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "cluster_id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "engine",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "engine_version",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "final_snapshot_identifier",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ip_discovery",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "maintenance_window",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "network_type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "node_type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "notification_topic_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "num_cache_nodes",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "outpost_mode",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "parameter_group_name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "port",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "preferred_availability_zones",
+        "type": "list",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "preferred_outpost_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "replication_group_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "security_group_ids",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "snapshot_arns",
+        "type": "list",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "snapshot_name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "snapshot_retention_limit",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "snapshot_window",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "subnet_group_name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "transit_encryption_enabled",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-s3": {
+    "tf_type": "aws_s3_bucket",
+    "fields": [
+      {
+        "name": "acceleration_status",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "acl",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "bucket",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "bucket_prefix",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "force_destroy",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "object_lock_enabled",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "policy",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "request_payer",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-ebs": {
+    "tf_type": "aws_ebs_volume",
+    "fields": [
+      {
+        "name": "availability_zone",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "encrypted",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "final_snapshot",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "iops",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "kms_key_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "multi_attach_enabled",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "outpost_arn",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "size",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "snapshot_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "throughput",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-efs": {
+    "tf_type": "aws_efs_file_system",
+    "fields": [
+      {
+        "name": "availability_zone_name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "creation_token",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "encrypted",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "kms_key_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "performance_mode",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "provisioned_throughput_in_mibps",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "throughput_mode",
+        "type": "string",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-elb": {
+    "tf_type": "aws_elb",
+    "fields": [
+      {
+        "name": "availability_zones",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "connection_draining",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "connection_draining_timeout",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "cross_zone_load_balancing",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "desync_mitigation_mode",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "idle_timeout",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "instances",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "internal",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name_prefix",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "security_groups",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "source_security_group",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "subnets",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-alb": {
+    "tf_type": "aws_lb",
+    "fields": [
+      {
+        "name": "client_keep_alive",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "customer_owned_ipv4_pool",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "desync_mitigation_mode",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "dns_record_client_routing_policy",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "drop_invalid_header_fields",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_cross_zone_load_balancing",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_deletion_protection",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_http2",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_tls_version_and_cipher_suite_headers",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_waf_fail_open",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_xff_client_port",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_zonal_shift",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enforce_security_group_inbound_rules_on_private_link_traffic",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "idle_timeout",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "internal",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ip_address_type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "load_balancer_type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name_prefix",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "preserve_host_header",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "security_groups",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "subnets",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "xff_header_processing_mode",
+        "type": "string",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-nlb": {
+    "tf_type": "aws_lb",
+    "fields": [
+      {
+        "name": "client_keep_alive",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "customer_owned_ipv4_pool",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "desync_mitigation_mode",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "dns_record_client_routing_policy",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "drop_invalid_header_fields",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_cross_zone_load_balancing",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_deletion_protection",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_http2",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_tls_version_and_cipher_suite_headers",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_waf_fail_open",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_xff_client_port",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enable_zonal_shift",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enforce_security_group_inbound_rules_on_private_link_traffic",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "idle_timeout",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "internal",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ip_address_type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "load_balancer_type",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name_prefix",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "preserve_host_header",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "security_groups",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "subnets",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "xff_header_processing_mode",
+        "type": "string",
+        "required": false,
+        "description": ""
+      }
+    ]
+  },
+  "aws-route53": {
+    "tf_type": "aws_route53_record",
+    "fields": [
+      {
+        "name": "allow_overwrite",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "health_check_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "multivalue_answer_routing_policy",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "records",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "set_identifier",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "ttl",
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "type",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "zone_id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ]
+  },
+  "aws-cloudfront": {
+    "tf_type": "aws_cloudfront_distribution",
+    "fields": [
+      {
+        "name": "aliases",
+        "type": "set",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "comment",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "continuous_deployment_policy_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "default_root_object",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "enabled",
+        "type": "bool",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "http_version",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "is_ipv6_enabled",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "price_class",
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "retain_on_delete",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "staging",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "tags_all",
+        "type": "map",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "wait_for_deployment",
+        "type": "bool",
+        "required": false,
+        "description": ""
+      },
+      {
+        "name": "web_acl_id",
+        "type": "string",
+        "required": false,
+        "description": ""
+      }
+    ]
+  }
+}

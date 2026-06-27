@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import {
   ReactFlow,
   addEdge,
@@ -49,6 +49,8 @@ import {
 import TerraformOutput, {
   type GenerateResult,
 } from "@/components/TerraformOutput";
+import CostPanel from "@/components/CostPanel";
+import { estimateCanvasCost } from "@/lib/pricing";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8080";
 
@@ -89,6 +91,18 @@ function FlowCanvas() {
     null,
   );
   const [isGenerating, setIsGenerating] = useState(false);
+  const [costPanelOpen, setCostPanelOpen] = useState(false);
+
+  // Live cost estimate — recomputes whenever nodes or their config change.
+  const costEstimate = useMemo(() => estimateCanvasCost(nodes), [nodes]);
+
+  const selectNode = useCallback((nodeId: string) => {
+    setNodes((nds) => {
+      const updated = nds.map((n) => ({ ...n, selected: n.id === nodeId }));
+      setSelectedNode(updated.find((n) => n.id === nodeId) ?? null);
+      return updated;
+    });
+  }, []);
 
   const onGenerate = useCallback(async () => {
     setIsGenerating(true);
@@ -345,6 +359,18 @@ function FlowCanvas() {
           >
             Save
           </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setCostPanelOpen(true)}
+            title="Estimated monthly cost"
+          >
+            ~$
+            {costEstimate.monthlyTotal.toLocaleString(undefined, {
+              maximumFractionDigits: 0,
+            })}
+            /mo
+          </Button>
           <Button size="sm" onClick={onGenerate} disabled={isGenerating}>
             {isGenerating ? "Generating..." : "Generate Terraform"}
           </Button>
@@ -395,6 +421,12 @@ function FlowCanvas() {
           <TerraformOutput
             result={generateResult}
             onClose={() => setGenerateResult(null)}
+          />
+          <CostPanel
+            estimate={costEstimate}
+            open={costPanelOpen}
+            onClose={() => setCostPanelOpen(false)}
+            onSelectNode={selectNode}
           />
         </div>
       </SidebarInset>

@@ -70,7 +70,7 @@ Resource type to Terraform resource mapping:
 
 Rules:
 - Resolve every dependency implied by parentId (containment) and edges (relationships) into real Terraform references (e.g. vpc_id = aws_vpc.main.id). Never hardcode IDs.
-- Use each resource's config properties to populate the matching Terraform arguments (e.g. cidrBlock -> cidr_block, instanceType -> instance_type).
+- Use each resource's config properties to populate the matching Terraform arguments. Key mappings: cidrBlock -> cidr_block; instanceType -> instance_type; instanceClass -> instance_class (RDS); allocatedStorageGb -> allocated_storage (RDS); engine/engineVersion -> engine/engine_version; multiAz enabled/disabled -> multi_az true/false; nodeType -> node_type and numNodes -> num_cache_nodes (ElastiCache); volumeType -> type, sizeGb -> size, iops -> iops (EBS; only set iops for io1/io2); memoryMb -> memory_size (Lambda). Ignore purely estimation-only fields that have no Terraform argument (estimatedStorageGb, requestsPerMonth, invocationsPerMonth, avgDurationMs, readsPerMonth, writesPerMonth, storageGb, provisionedRcu, provisionedWcu) — these exist only for cost estimation; for DynamoDB map capacityMode on-demand/provisioned -> billing_mode PAY_PER_REQUEST/PROVISIONED (and set read_capacity/write_capacity from provisionedRcu/provisionedWcu only when provisioned).
 - Extract values a user would plausibly want to override per-environment into variables.tf with sensible defaults, and reference them from main.tf via var.*.
 - Declare the aws provider with a configurable region variable, and pin the provider version to `~> 5.0` in a required_providers block (this matches the provider already cached in this environment).
 - Output useful values (resource IDs, ARNs, endpoints) in outputs.tf.
