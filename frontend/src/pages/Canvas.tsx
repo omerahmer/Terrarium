@@ -29,11 +29,26 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { ModeToggle } from "@/components/mode-toggle";
-import { loadCanvas, saveCanvas } from "@/lib/canvas-storage";
+import {
+  loadCanvas,
+  saveCanvas,
+  serializeEdges,
+  serializeNodes,
+} from "@/lib/canvas-storage";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { Leaf } from "lucide-react";
+import { getDefaultNodeConfig } from "@/lib/aws-schema";
+import {
+  buildRelationshipLabel,
+  validateConnection,
+} from "@/lib/relationship-rules";
+import TerraformOutput, {
+  type GenerateResult,
+} from "@/components/TerraformOutput";
+
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8080";
 
 const nodeTypes = {
   "aws-resource": AWSNode,
@@ -64,6 +79,37 @@ function FlowCanvas() {
   );
   const [edges, setEdges] = useState<Edge[]>(() => loadCanvas()?.edges ?? []);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
+  const [generateResult, setGenerateResult] = useState<GenerateResult | null>(
+    null,
+  );
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const onGenerate = useCallback(async () => {
+    setIsGenerating(true);
+    try {
+      const response = await fetch(`${API_URL}/generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nodes: serializeNodes(nodes),
+          edges: serializeEdges(edges),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Generate failed with status ${response.status}`);
+      }
+
+      const result: GenerateResult = await response.json();
+      setGenerateResult(result);
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to generate Terraform",
+      );
+    } finally {
+      setIsGenerating(false);
+    }
+  }, [nodes, edges]);
 
   const onSelectionChange = useCallback(
     ({ nodes }: OnSelectionChangeParams) => {
@@ -89,9 +135,57 @@ function FlowCanvas() {
     [],
   );
 
+  const tryCreateEdge = useCallback(
+    (connection: Connection) => {
+      let created = false;
+      let reason = "Invalid relationship";
+
+      setEdges((eds) => {
+        const result = validateConnection({
+          connection,
+          nodes,
+          edges: eds,
+        });
+
+        if (!result.isValid) {
+          reason = result.reason ?? reason;
+          return eds;
+        }
+
+        created = true;
+        return (
+          addEdge(
+            {
+              ...connection,
+              animated: true,
+              label: buildRelationshipLabel(
+                result.sourceDefinition,
+                result.targetDefinition,
+              ),
+              data: {
+                relationship: buildRelationshipLabel(
+                  result.sourceDefinition,
+                  result.targetDefinition,
+                ),
+              },
+            },
+            eds,
+          ) ?? eds
+        );
+      });
+
+      if (!created) {
+        toast.error(reason);
+      }
+    },
+    [nodes],
+  );
+
   const onConnect: OnConnect = useCallback(
-    (connection) => setEdges((eds) => addEdge(connection, eds) ?? eds),
-    [],
+    (connection) => {
+      tryCreateEdge(connection);
+    },
+    [tryCreateEdge],
   );
 
   const { screenToFlowPosition } = useReactFlow();
@@ -128,7 +222,12 @@ function FlowCanvas() {
           width: vpcWidth,
           height: vpcHeight,
           style: { width: vpcWidth, height: vpcHeight },
-          data: { label, resourceType, icon },
+          data: {
+            label,
+            resourceType,
+            icon,
+            config: getDefaultNodeConfig(resourceType),
+          },
         };
 
         setNodes((nds) => {
@@ -190,7 +289,12 @@ function FlowCanvas() {
             parentId: parentVPC.id,
             extent: "parent" as const,
           }),
-          data: { label, resourceType, icon },
+          data: {
+            label,
+            resourceType,
+            icon,
+            config: getDefaultNodeConfig(resourceType),
+          },
         };
 
         return sortNodes(nds.concat(newNode));
@@ -235,6 +339,9 @@ function FlowCanvas() {
           >
             Save
           </Button>
+          <Button size="sm" onClick={onGenerate} disabled={isGenerating}>
+            {isGenerating ? "Generating..." : "Generate Terraform"}
+          </Button>
         </header>
 
         {/* Canvas fills remaining height */}
@@ -260,13 +367,27 @@ function FlowCanvas() {
           </ReactFlow>
           <PropertyPanel
             node={selectedNode}
+            allNodes={nodes}
             onChange={(updated) => {
               setNodes((nds) =>
                 nds.map((n) => (n.id === updated.id ? updated : n)),
               );
               setSelectedNode(updated);
             }}
+            onRequestConnect={(targetId) => {
+              if (!selectedNode) return;
+              tryCreateEdge({
+                source: selectedNode.id,
+                target: targetId,
+                sourceHandle: null,
+                targetHandle: null,
+              });
+            }}
             onClose={() => setSelectedNode(null)}
+          />
+          <TerraformOutput
+            result={generateResult}
+            onClose={() => setGenerateResult(null)}
           />
         </div>
       </SidebarInset>
