@@ -4,13 +4,11 @@ import subprocess
 import tempfile
 from typing import TypedDict
 
-import anthropic
 from langgraph.graph import END, StateGraph
 
-MAX_ATTEMPTS = 3
-MODEL = "claude-sonnet-4-6"
+from llm import MODEL, client, extract_tool_input
 
-client = anthropic.Anthropic()
+MAX_ATTEMPTS = 3
 
 EMIT_TERRAFORM_TOOL = {
     "name": "emit_terraform",
@@ -92,11 +90,8 @@ def _canvas_prompt(canvas: dict) -> str:
     return f"Generate Terraform for this architecture:\n\n{json.dumps(canvas, indent=2)}"
 
 
-def _extract_terraform(message: anthropic.types.Message) -> dict[str, str]:
-    for block in message.content:
-        if block.type == "tool_use" and block.name == "emit_terraform":
-            return block.input
-    raise ValueError("Claude response did not include an emit_terraform tool call")
+def _extract_terraform(message) -> dict[str, str]:
+    return extract_tool_input(message, "emit_terraform")
 
 
 def generate_node(state: GraphState) -> GraphState:
