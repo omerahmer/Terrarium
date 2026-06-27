@@ -1,28 +1,8 @@
+import anyio
 from fastapi import FastAPI
-from pydantic import BaseModel
 
-
-class NodeData(BaseModel):
-    label: str
-    resourceType: str
-
-
-class CanvasNode(BaseModel):
-    id: str
-    data: NodeData
-    parentId: str | None
-
-
-class CanvasEdge(BaseModel):
-    id: str
-    source: str
-    target: str
-
-
-class GenerateRequest(BaseModel):
-    nodes: list[CanvasNode]
-    edges: list[CanvasEdge]
-
+from models import GenerateRequest, GenerateResponse
+from terraform_graph import run_generation
 
 app = FastAPI()
 
@@ -37,9 +17,10 @@ async def health():
     return {"status": "ok", "service": "python-ai"}
 
 
-@app.post("/generate")
+@app.post("/generate", response_model=GenerateResponse)
 async def generate(body: GenerateRequest):
-    return {"hcl": "# terraform will be generated here", "validated": False}
+    canvas = body.model_dump()
+    return await anyio.to_thread.run_sync(run_generation, canvas)
 
 
 @app.post("/review")
