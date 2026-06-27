@@ -13,43 +13,48 @@ import (
 	"github.com/go-chi/cors"
 )
 
-func handleGenerate(w http.ResponseWriter, r *http.Request) {
-	aiURL := os.Getenv("AI_SERVICE_URL")
-	if aiURL == "" {
-		aiURL = "http://localhost:8000"
-	}
+// proxyTo returns a handler that forwards the request body to the AI service at
+// the given path and streams the response straight back. Both /generate and
+// /review are identical byte-passthrough proxies.
+func proxyTo(path string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		aiURL := os.Getenv("AI_SERVICE_URL")
+		if aiURL == "" {
+			aiURL = "http://localhost:8000"
+		}
 
-	body, err := io.ReadAll(r.Body)
-	if err != nil {
-		http.Error(w, "couldn't read body", http.StatusBadRequest)
-		return
-	}
-	defer r.Body.Close()
+		body, err := io.ReadAll(r.Body)
+		if err != nil {
+			http.Error(w, "couldn't read body", http.StatusBadRequest)
+			return
+		}
+		defer r.Body.Close()
 
-	fullUrl := aiURL + "/generate"
-	generate, err := http.NewRequestWithContext(r.Context(), http.MethodPost, fullUrl, bytes.NewReader(body))
-	if err != nil {
-		http.Error(w, "failed to create request", http.StatusInternalServerError)
-		return
-	}
+		fullUrl := aiURL + path
+		proxied, err := http.NewRequestWithContext(r.Context(), http.MethodPost, fullUrl, bytes.NewReader(body))
+		if err != nil {
+			http.Error(w, "failed to create request", http.StatusInternalServerError)
+			return
+		}
 
-	generate.Header = r.Header.Clone()
-	generate.Header.Set("Content-Type", "application/json")
-	client := &http.Client{Timeout: 120 * time.Second}
-	resp, err := client.Do(generate)
-	if err != nil {
-		http.Error(w, "failed to POST", http.StatusBadGateway)
-		return
-	}
-	defer resp.Body.Close()
+		proxied.Header = r.Header.Clone()
+		proxied.Header.Set("Content-Type", "application/json")
+		client := &http.Client{Timeout: 120 * time.Second}
+		resp, err := client.Do(proxied)
+		if err != nil {
+			http.Error(w, "failed to POST", http.StatusBadGateway)
+			return
+		}
+		defer resp.Body.Close()
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(resp.StatusCode)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(resp.StatusCode)
 
-	_, err = io.Copy(w, resp.Body)
-	if err != nil {
-		log.Println("failed to copy")
-		return
+		_, err = io.Copy(w, resp.Body)
+		if err != nil {
+			log.Println("failed to copy")
+			return
+		}
 	}
 }
 
@@ -68,7 +73,8 @@ func main() {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte("{\"status\": \"ok\",\"service\":\"go-api\"}"))
 	})
-	r.Post("/generate", handleGenerate)
+	r.Post("/generate", proxyTo("/generate"))
+	r.Post("/review", proxyTo("/review"))
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello world"))
 	})

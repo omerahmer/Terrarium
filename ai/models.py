@@ -1,3 +1,5 @@
+from typing import Literal
+
 from pydantic import BaseModel
 
 
@@ -34,3 +36,16 @@ class GenerateResponse(BaseModel):
     validated: bool
     attempts: int
     errors: list[str] = []
+
+
+class Finding(BaseModel):
+    severity: Literal["error", "warning", "info"]
+    title: str
+    message: str
+    suggestion: str | None = None
+    node_ids: list[str] = []
+    source: Literal["deterministic", "llm"]
+
+
+class ReviewResponse(BaseModel):
+    findings: list[Finding]
