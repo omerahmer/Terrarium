@@ -35,7 +35,7 @@ func handleGenerate(w http.ResponseWriter, r *http.Request) {
 
 	generate.Header = r.Header.Clone()
 	generate.Header.Set("Content-Type", "application/json")
-	client := &http.Client{Timeout: 60 * time.Second}
+	client := &http.Client{Timeout: 120 * time.Second}
 	resp, err := client.Do(generate)
 	if err != nil {
 		http.Error(w, "failed to POST", http.StatusBadGateway)
