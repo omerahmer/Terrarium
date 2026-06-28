@@ -13,10 +13,12 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import {
   getAwsResourceDefinition,
+  getCatalogOptions,
   type AwsPropertyDefinition,
   type AwsPropertyValue,
   type AwsResourceType,
 } from "@/lib/aws-schema";
+import PropertyCombobox from "@/components/PropertyCombobox";
 
 interface PropertyPanelProps {
   node: Node | null;
@@ -93,6 +95,7 @@ export default function PropertyPanel({
 
   const resolvePropertyOptions = (property: AwsPropertyDefinition) => {
     if (property.options && property.options.length > 0) return property.options;
+    if (property.optionsCatalog) return getCatalogOptions(property.optionsCatalog);
     if (!property.optionResourceTypes) return [];
 
     return allNodes
@@ -227,6 +230,57 @@ export default function PropertyPanel({
                 {properties.map((property) => {
                   const value = config[property.key];
                   const options = resolvePropertyOptions(property);
+
+                  if (property.inputType === "combobox") {
+                    return (
+                      <div key={property.key} className="flex flex-col gap-1.5">
+                        <label className="text-xs font-medium text-muted-foreground">
+                          {property.label}
+                        </label>
+                        <PropertyCombobox
+                          value={typeof value === "string" ? value : ""}
+                          options={options}
+                          onChange={(next) => updateConfig(property.key, next)}
+                          placeholder={property.placeholder}
+                        />
+                        {property.helperText && (
+                          <span className="text-[11px] text-muted-foreground">
+                            {property.helperText}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  }
+
+                  if (property.inputType === "number") {
+                    return (
+                      <div key={property.key} className="flex flex-col gap-1.5">
+                        <label
+                          htmlFor={`prop-${property.key}`}
+                          className="text-xs font-medium text-muted-foreground"
+                        >
+                          {property.label}
+                          {property.unit ? ` (${property.unit})` : ""}
+                        </label>
+                        <Input
+                          id={`prop-${property.key}`}
+                          type="number"
+                          min={property.min}
+                          step={property.step}
+                          value={typeof value === "string" ? value : ""}
+                          onChange={(e) =>
+                            updateConfig(property.key, e.target.value)
+                          }
+                          placeholder={property.placeholder}
+                        />
+                        {property.helperText && (
+                          <span className="text-[11px] text-muted-foreground">
+                            {property.helperText}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  }
 
                   if (property.inputType === "text") {
                     return (
