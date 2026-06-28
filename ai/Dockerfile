@@ -40,5 +40,7 @@ RUN mkdir -p $TF_PLUGIN_CACHE_DIR /tmp/tf-provider-warmup \
 
 EXPOSE 8000
 
-# --host 0.0.0.0 makes FastAPI reachable from other containers, not just localhost
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# --host 0.0.0.0 makes FastAPI reachable from other containers, not just localhost.
+# Shell form so ${PORT} (injected by Railway and most PaaS hosts) is expanded;
+# defaults to 8000 for local/docker-compose.
+CMD uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}
