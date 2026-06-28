@@ -40,7 +40,10 @@ RUN mkdir -p $TF_PLUGIN_CACHE_DIR /tmp/tf-provider-warmup \
 
 EXPOSE 8000
 
-# --host 0.0.0.0 makes FastAPI reachable from other containers, not just localhost.
-# Shell form so ${PORT} (injected by Railway and most PaaS hosts) is expanded;
-# defaults to 8000 for local/docker-compose.
-CMD uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}
+# Bind host is configurable so we work in both networks:
+#  - Railway's private network is IPv6-only, so the default is :: (IPv6).
+#  - docker-compose reaches this via the IPv4 `ai` hostname, so compose sets
+#    UVICORN_HOST=0.0.0.0 (some kernels don't accept IPv4 on a :: socket).
+# Shell form so ${PORT} (injected by Railway/most PaaS) and ${UVICORN_HOST}
+# are expanded; defaults: host ::, port 8000.
+CMD uvicorn main:app --host ${UVICORN_HOST:-::} --port ${PORT:-8000}
