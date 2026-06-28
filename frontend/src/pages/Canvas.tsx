@@ -10,6 +10,7 @@ import {
   type OnConnect,
   type OnNodesChange,
   type OnEdgesChange,
+  type Connection,
   type OnSelectionChangeParams,
   type DefaultEdgeOptions,
   Background,
@@ -53,6 +54,9 @@ import { estimateCanvasCost } from "@/lib/pricing";
 import TemplateGallery from "@/components/TemplateGallery";
 import type { Template } from "@/lib/templates";
 import ReviewPanel, { type ReviewResult } from "@/components/ReviewPanel";
+import UserMenu from "@/components/UserMenu";
+import ProjectsMenu from "@/components/ProjectsMenu";
+import { useAuth } from "@/lib/auth";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8080";
 
@@ -93,6 +97,8 @@ function FlowCanvas() {
   const [reviewResult, setReviewResult] = useState<ReviewResult | null>(null);
   const [isReviewing, setIsReviewing] = useState(false);
   const [templatesOpen, setTemplatesOpen] = useState(false);
+  const [projectsOpen, setProjectsOpen] = useState(false);
+  const { user } = useAuth();
 
   // Live cost estimate — recomputes whenever nodes or their config change.
   const costEstimate = useMemo(() => estimateCanvasCost(nodes), [nodes]);
@@ -248,6 +254,19 @@ function FlowCanvas() {
 
   const { screenToFlowPosition, fitView } = useReactFlow();
 
+  // Replace the canvas with a fresh set of nodes/edges (from a template or a
+  // loaded cloud project), persist locally, and reframe.
+  const applyCanvas = useCallback(
+    (newNodes: Node[], newEdges: Edge[]) => {
+      setNodes(sortNodes(newNodes));
+      setEdges(newEdges);
+      setSelectedNode(null);
+      saveCanvas(newNodes, newEdges);
+      requestAnimationFrame(() => fitView({ padding: 0.2 }));
+    },
+    [fitView],
+  );
+
   const applyTemplate = useCallback(
     (template: Template) => {
       if (
@@ -260,15 +279,11 @@ function FlowCanvas() {
       }
 
       const hydrated = hydrateCanvas(template.data, { mergeConfigDefaults: true });
-      setNodes(sortNodes(hydrated.nodes));
-      setEdges(hydrated.edges);
-      setSelectedNode(null);
-      saveCanvas(hydrated.nodes, hydrated.edges);
+      applyCanvas(hydrated.nodes, hydrated.edges);
       setTemplatesOpen(false);
       toast.success(`Loaded "${template.name}"`);
-      requestAnimationFrame(() => fitView({ padding: 0.2 }));
     },
-    [nodes, fitView],
+    [nodes, applyCanvas],
   );
 
   const onDragOver = useCallback((event: React.DragEvent) => {
@@ -417,6 +432,15 @@ function FlowCanvas() {
           >
             Templates
           </Button>
+          {user && (
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => setProjectsOpen(true)}
+            >
+              Projects
+            </Button>
+          )}
           <Button
             size="sm"
             variant="outline"
@@ -450,6 +474,8 @@ function FlowCanvas() {
           <Button size="sm" onClick={onGenerate} disabled={isGenerating}>
             {isGenerating ? "Generating..." : "Generate Terraform"}
           </Button>
+          <div className="w-px h-4 bg-border mx-1" />
+          <UserMenu />
         </header>
 
         {/* Canvas fills remaining height */}
@@ -512,6 +538,13 @@ function FlowCanvas() {
             open={templatesOpen}
             onClose={() => setTemplatesOpen(false)}
             onApply={applyTemplate}
+          />
+          <ProjectsMenu
+            open={projectsOpen}
+            onClose={() => setProjectsOpen(false)}
+            nodes={nodes}
+            edges={edges}
+            onApply={applyCanvas}
           />
         </div>
       </SidebarInset>
