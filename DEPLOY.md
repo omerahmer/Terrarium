@@ -35,18 +35,20 @@ Create a project at <https://railway.app> from your GitHub repo, then add **two 
 - Build: uses `ai/Dockerfile` automatically. (It bakes in the Terraform CLI + AWS provider; first build is a few minutes.)
 - **Variables:**
   - `ANTHROPIC_API_KEY` = your key from <https://console.anthropic.com/>
-- Railway injects `$PORT`; the Dockerfile already binds it. Once deployed, note its **private** URL (e.g. `ai.railway.internal`) and its public URL.
+  - `PORT` = `8000` — pin the port so the private URL below is predictable.
+- Keep it **private** (no public domain needed). The Dockerfile defaults to binding `::` (IPv6), which is required for Railway's IPv6-only private network. Its private address is `ai.railway.internal` (also shown under **Settings → Networking → Private Networking**, and available as `$RAILWAY_PRIVATE_DOMAIN`).
 
 ### Service: `api` (Go)
 - **Root directory:** `api`
 - Build: uses `api/Dockerfile` automatically.
 - **Variables:**
-  - `AI_SERVICE_URL` = the **private** URL of the `ai` service, e.g. `http://ai.railway.internal:8000`
-    (private networking keeps the AI service off the public internet; if you prefer, use its public `https://…` URL instead)
+  - `AI_SERVICE_URL` = `http://ai.railway.internal:8000` (the `ai` service's private address + the `PORT` you pinned above). Private networking keeps the AI service off the public internet.
   - `ALLOWED_ORIGINS` = leave unset for now; you'll set it to the Vercel URL in step 4.
-- Generate a public domain for this service (Settings → Networking). This URL is your `VITE_API_URL`.
+- Generate a public domain for this service (**Settings → Networking → Generate Domain**). This URL is your `VITE_API_URL`.
 
-> The Go service honors `$PORT`; the AI service listens on `$PORT` too. No code changes needed per service.
+> **Why the IPv6 note matters:** Railway's private network is IPv6-only, so the AI service must bind `::` (the Dockerfile default does). If the `api` service can't reach `ai` (502s), confirm the `ai` service has no `UVICORN_HOST=0.0.0.0` override and that `PORT`/`AI_SERVICE_URL` ports match. Both services honor `$PORT`; the Go service's default listener is already dual-stack.
+>
+> _Prefer not to use private networking?_ Give the `ai` service a public domain and set `AI_SERVICE_URL` to that `https://…` URL instead — the `::` bind serves that too.
 
 ---
 
