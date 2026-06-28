@@ -6,12 +6,41 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
 )
+
+// allowedOrigins reads ALLOWED_ORIGINS (comma-separated) for CORS, falling back
+// to the local Vite dev server. In production this is set to the deployed
+// frontend origin (e.g. the Vercel URL).
+func allowedOrigins() []string {
+	raw := os.Getenv("ALLOWED_ORIGINS")
+	if raw == "" {
+		return []string{"http://localhost:5173"}
+	}
+	parts := strings.Split(raw, ",")
+	origins := make([]string, 0, len(parts))
+	for _, p := range parts {
+		if trimmed := strings.TrimSpace(p); trimmed != "" {
+			origins = append(origins, trimmed)
+		}
+	}
+	return origins
+}
+
+// listenAddr honors $PORT (injected by Railway and most PaaS hosts), defaulting
+// to 8080 for local development.
+func listenAddr() string {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	return ":" + port
+}
 
 // proxyTo returns a handler that forwards the request body to the AI service at
 // the given path and streams the response straight back. Both /generate and
@@ -61,7 +90,7 @@ func proxyTo(path string) http.HandlerFunc {
 func main() {
 	r := chi.NewRouter()
 	r.Use(cors.Handler(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:5173"},
+		AllowedOrigins:   allowedOrigins(),
 		AllowedMethods:   []string{"GET", "POST", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Content-Type"},
 		ExposedHeaders:   []string{"Link"},
@@ -78,5 +107,7 @@ func main() {
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello world"))
 	})
-	http.ListenAndServe(":8080", r)
+	addr := listenAddr()
+	log.Printf("go-api listening on %s", addr)
+	http.ListenAndServe(addr, r)
 }
