@@ -71,7 +71,8 @@ func proxyTo(path string) http.HandlerFunc {
 		client := &http.Client{Timeout: 120 * time.Second}
 		resp, err := client.Do(proxied)
 		if err != nil {
-			http.Error(w, "failed to POST", http.StatusBadGateway)
+			log.Printf("POST to %s failed: %v", fullUrl, err)
+			http.Error(w, err.Error(), http.StatusBadGateway)
 			return
 		}
 		defer resp.Body.Close()
