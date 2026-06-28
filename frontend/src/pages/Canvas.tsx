@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/sidebar";
 import { ModeToggle } from "@/components/mode-toggle";
 import {
+  hydrateCanvas,
   loadCanvas,
   saveCanvas,
   serializeEdges,
@@ -51,6 +52,8 @@ import TerraformOutput, {
 } from "@/components/TerraformOutput";
 import CostPanel from "@/components/CostPanel";
 import { estimateCanvasCost } from "@/lib/pricing";
+import TemplateGallery from "@/components/TemplateGallery";
+import type { Template } from "@/lib/templates";
 import ReviewPanel, { type ReviewResult } from "@/components/ReviewPanel";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8080";
@@ -95,6 +98,7 @@ function FlowCanvas() {
   const [costPanelOpen, setCostPanelOpen] = useState(false);
   const [reviewResult, setReviewResult] = useState<ReviewResult | null>(null);
   const [isReviewing, setIsReviewing] = useState(false);
+  const [templatesOpen, setTemplatesOpen] = useState(false);
 
   // Live cost estimate — recomputes whenever nodes or their config change.
   const costEstimate = useMemo(() => estimateCanvasCost(nodes), [nodes]);
@@ -248,7 +252,30 @@ function FlowCanvas() {
     [tryCreateEdge],
   );
 
-  const { screenToFlowPosition } = useReactFlow();
+  const { screenToFlowPosition, fitView } = useReactFlow();
+
+  const applyTemplate = useCallback(
+    (template: Template) => {
+      if (
+        nodes.length > 0 &&
+        !window.confirm(
+          "Replace the current canvas with this template? Unsaved changes will be lost.",
+        )
+      ) {
+        return;
+      }
+
+      const hydrated = hydrateCanvas(template.data, { mergeConfigDefaults: true });
+      setNodes(sortNodes(hydrated.nodes));
+      setEdges(hydrated.edges);
+      setSelectedNode(null);
+      saveCanvas(hydrated.nodes, hydrated.edges);
+      setTemplatesOpen(false);
+      toast.success(`Loaded "${template.name}"`);
+      requestAnimationFrame(() => fitView({ padding: 0.2 }));
+    },
+    [nodes, fitView],
+  );
 
   const onDragOver = useCallback((event: React.DragEvent) => {
     event.preventDefault();
@@ -392,6 +419,13 @@ function FlowCanvas() {
           <Button
             size="sm"
             variant="outline"
+            onClick={() => setTemplatesOpen(true)}
+          >
+            Templates
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
             onClick={() => {
               saveCanvas(nodes, edges);
               toast.success("Canvas saved!");
@@ -480,6 +514,11 @@ function FlowCanvas() {
             result={reviewResult}
             onClose={() => setReviewResult(null)}
             onSelectNodes={highlightNodes}
+          />
+          <TemplateGallery
+            open={templatesOpen}
+            onClose={() => setTemplatesOpen(false)}
+            onApply={applyTemplate}
           />
         </div>
       </SidebarInset>
