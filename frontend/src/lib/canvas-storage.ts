@@ -2,7 +2,7 @@ import type { Edge, Node } from "@xyflow/react";
 import { awsResources } from "./aws-resources";
 import { getDefaultNodeConfig, type AwsPropertyValue } from "./aws-schema";
 
-interface SavedNode {
+export interface SavedNode {
   id: string;
   type: string;
   position: { x: number; y: number };
@@ -18,7 +18,7 @@ interface SavedNode {
   };
 }
 
-interface SavedEdge {
+export interface SavedEdge {
   id: string;
   source: string;
   target: string;
@@ -30,7 +30,7 @@ interface SavedEdge {
   };
 }
 
-interface CanvasData {
+export interface CanvasData {
   version: number;
   nodes: SavedNode[];
   edges: SavedEdge[];
@@ -95,66 +95,83 @@ export function saveCanvas(nodes: Node[], edges: Edge[]): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
+// Turn a saved/template CanvasData payload into live React Flow nodes/edges.
+// Used by both loadCanvas (localStorage) and the template gallery.
+//
+// `mergeConfigDefaults` layers each node's (possibly partial) config over the
+// resource's default config, so templates only need to specify the interesting
+// overrides while every other field still gets a sensible default — important
+// for the cost estimate and Terraform generation to have complete config.
+export function hydrateCanvas(
+  data: CanvasData,
+  opts: { mergeConfigDefaults?: boolean } = {},
+): { nodes: Node[]; edges: Edge[] } {
+  const isLegacyVersion = !data.version || data.version <= 1;
+
+  const nodes: Node[] = data.nodes.map((saved) => {
+    const resource = awsResources.find((r) => r.id === saved.data.resourceType);
+
+    const config = opts.mergeConfigDefaults
+      ? {
+          ...getDefaultNodeConfig(saved.data.resourceType),
+          ...(saved.data.config ?? {}),
+        }
+      : saved.data.config ?? getDefaultNodeConfig(saved.data.resourceType);
+
+    const node: Node = {
+      id: saved.id,
+      type: saved.type,
+      position: saved.position,
+      data: {
+        ...saved.data,
+        icon: resource?.icon ?? "",
+        config,
+      },
+    };
+
+    // Restore VPC container fields
+    if (saved.parentId) node.parentId = saved.parentId;
+    if (saved.extent === "parent") node.extent = "parent";
+    // Restore both width/height and style so React Flow and CSS both have correct dimensions
+    if (saved.width) node.width = saved.width;
+    if (saved.height) node.height = saved.height;
+    if (saved.style) node.style = saved.style;
+
+    return node;
+  });
+
+  const edges: Edge[] = data.edges.map((edge) => {
+    if (!isLegacyVersion) return edge as Edge;
+
+    const sourceNode = nodes.find((node) => node.id === edge.source);
+    const targetNode = nodes.find((node) => node.id === edge.target);
+    const sourceLabel = sourceNode?.data?.label as string | undefined;
+    const targetLabel = targetNode?.data?.label as string | undefined;
+
+    const relationship =
+      sourceLabel && targetLabel
+        ? `${sourceLabel} -> ${targetLabel}`
+        : edge.data?.relationship ?? "connected to";
+
+    return {
+      ...edge,
+      label: edge.label ?? relationship,
+      data: {
+        ...edge.data,
+        relationship,
+      },
+    };
+  });
+
+  return { nodes, edges };
+}
+
 export function loadCanvas(): { nodes: Node[]; edges: Edge[] } | null {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) return null;
 
   try {
-    const data: CanvasData = JSON.parse(raw);
-
-    const isLegacyVersion = !data.version || data.version <= 1;
-
-    const nodes: Node[] = data.nodes.map((saved) => {
-      const resource = awsResources.find(
-        (r) => r.id === saved.data.resourceType,
-      );
-
-      const node: Node = {
-        id: saved.id,
-        type: saved.type,
-        position: saved.position,
-        data: {
-          ...saved.data,
-          icon: resource?.icon ?? "",
-          config: saved.data.config ?? getDefaultNodeConfig(saved.data.resourceType),
-        },
-      };
-
-      // Restore VPC container fields
-      if (saved.parentId) node.parentId = saved.parentId;
-      if (saved.extent === "parent") node.extent = "parent";
-      // Restore both width/height and style so React Flow and CSS both have correct dimensions
-      if (saved.width) node.width = saved.width;
-      if (saved.height) node.height = saved.height;
-      if (saved.style) node.style = saved.style;
-
-      return node;
-    });
-
-    const edges: Edge[] = data.edges.map((edge) => {
-      if (!isLegacyVersion) return edge as Edge;
-
-      const sourceNode = nodes.find((node) => node.id === edge.source);
-      const targetNode = nodes.find((node) => node.id === edge.target);
-      const sourceLabel = sourceNode?.data?.label as string | undefined;
-      const targetLabel = targetNode?.data?.label as string | undefined;
-
-      const relationship =
-        sourceLabel && targetLabel
-          ? `${sourceLabel} -> ${targetLabel}`
-          : edge.data?.relationship ?? "connected to";
-
-      return {
-        ...edge,
-        label: edge.label ?? relationship,
-        data: {
-          ...edge.data,
-          relationship,
-        },
-      };
-    });
-
-    return { nodes, edges };
+    return hydrateCanvas(JSON.parse(raw) as CanvasData);
   } catch {
     return null;
   }

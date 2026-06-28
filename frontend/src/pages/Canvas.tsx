@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import {
   ReactFlow,
   addEdge,
@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/sidebar";
 import { ModeToggle } from "@/components/mode-toggle";
 import {
+  hydrateCanvas,
   loadCanvas,
   saveCanvas,
   serializeEdges,
@@ -47,6 +48,10 @@ import {
 import TerraformOutput, {
   type GenerateResult,
 } from "@/components/TerraformOutput";
+import CostPanel from "@/components/CostPanel";
+import { estimateCanvasCost } from "@/lib/pricing";
+import TemplateGallery from "@/components/TemplateGallery";
+import type { Template } from "@/lib/templates";
 import ReviewPanel, { type ReviewResult } from "@/components/ReviewPanel";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8080";
@@ -84,8 +89,21 @@ function FlowCanvas() {
     null,
   );
   const [isGenerating, setIsGenerating] = useState(false);
+  const [costPanelOpen, setCostPanelOpen] = useState(false);
   const [reviewResult, setReviewResult] = useState<ReviewResult | null>(null);
   const [isReviewing, setIsReviewing] = useState(false);
+  const [templatesOpen, setTemplatesOpen] = useState(false);
+
+  // Live cost estimate — recomputes whenever nodes or their config change.
+  const costEstimate = useMemo(() => estimateCanvasCost(nodes), [nodes]);
+
+  const selectNode = useCallback((nodeId: string) => {
+    setNodes((nds) => {
+      const updated = nds.map((n) => ({ ...n, selected: n.id === nodeId }));
+      setSelectedNode(updated.find((n) => n.id === nodeId) ?? null);
+      return updated;
+    });
+  }, []);
 
   const onGenerate = useCallback(async () => {
     setIsGenerating(true);
@@ -228,7 +246,30 @@ function FlowCanvas() {
     [tryCreateEdge],
   );
 
-  const { screenToFlowPosition } = useReactFlow();
+  const { screenToFlowPosition, fitView } = useReactFlow();
+
+  const applyTemplate = useCallback(
+    (template: Template) => {
+      if (
+        nodes.length > 0 &&
+        !window.confirm(
+          "Replace the current canvas with this template? Unsaved changes will be lost.",
+        )
+      ) {
+        return;
+      }
+
+      const hydrated = hydrateCanvas(template.data, { mergeConfigDefaults: true });
+      setNodes(sortNodes(hydrated.nodes));
+      setEdges(hydrated.edges);
+      setSelectedNode(null);
+      saveCanvas(hydrated.nodes, hydrated.edges);
+      setTemplatesOpen(false);
+      toast.success(`Loaded "${template.name}"`);
+      requestAnimationFrame(() => fitView({ padding: 0.2 }));
+    },
+    [nodes, fitView],
+  );
 
   const onDragOver = useCallback((event: React.DragEvent) => {
     event.preventDefault();
@@ -372,12 +413,31 @@ function FlowCanvas() {
           <Button
             size="sm"
             variant="outline"
+            onClick={() => setTemplatesOpen(true)}
+          >
+            Templates
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
             onClick={() => {
               saveCanvas(nodes, edges);
               toast.success("Canvas saved!");
             }}
           >
             Save
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setCostPanelOpen(true)}
+            title="Estimated monthly cost"
+          >
+            ~$
+            {costEstimate.monthlyTotal.toLocaleString(undefined, {
+              maximumFractionDigits: 0,
+            })}
+            /mo
           </Button>
           <Button
             size="sm"
@@ -437,10 +497,21 @@ function FlowCanvas() {
             result={generateResult}
             onClose={() => setGenerateResult(null)}
           />
+          <CostPanel
+            estimate={costEstimate}
+            open={costPanelOpen}
+            onClose={() => setCostPanelOpen(false)}
+            onSelectNode={selectNode}
+          />
           <ReviewPanel
             result={reviewResult}
             onClose={() => setReviewResult(null)}
             onSelectNodes={highlightNodes}
+          />
+          <TemplateGallery
+            open={templatesOpen}
+            onClose={() => setTemplatesOpen(false)}
+            onApply={applyTemplate}
           />
         </div>
       </SidebarInset>
