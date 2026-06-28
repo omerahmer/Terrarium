@@ -10,8 +10,6 @@ import {
   type OnConnect,
   type OnNodesChange,
   type OnEdgesChange,
-  type OnNodeDrag,
-  type Connection,
   type OnSelectionChangeParams,
   type DefaultEdgeOptions,
   Background,
@@ -64,10 +62,6 @@ const fitViewOptions: FitViewOptions = {
 
 const defaultEdgeOptions: DefaultEdgeOptions = {
   animated: true,
-};
-
-const onNodeDrag: OnNodeDrag = (_, node) => {
-  console.log("drag event", node.data);
 };
 
 // React Flow requires parent nodes to appear before their children in the array.
@@ -411,7 +405,6 @@ function FlowCanvas() {
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
-            onNodeDrag={onNodeDrag}
             fitView
             fitViewOptions={fitViewOptions}
             defaultEdgeOptions={defaultEdgeOptions}
