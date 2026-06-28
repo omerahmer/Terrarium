@@ -47,6 +47,7 @@ import {
 import TerraformOutput, {
   type GenerateResult,
 } from "@/components/TerraformOutput";
+import ReviewPanel, { type ReviewResult } from "@/components/ReviewPanel";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8080";
 
@@ -83,6 +84,8 @@ function FlowCanvas() {
     null,
   );
   const [isGenerating, setIsGenerating] = useState(false);
+  const [reviewResult, setReviewResult] = useState<ReviewResult | null>(null);
+  const [isReviewing, setIsReviewing] = useState(false);
 
   const onGenerate = useCallback(async () => {
     setIsGenerating(true);
@@ -110,6 +113,43 @@ function FlowCanvas() {
       setIsGenerating(false);
     }
   }, [nodes, edges]);
+
+  const onReview = useCallback(async () => {
+    setIsReviewing(true);
+    try {
+      const response = await fetch(`${API_URL}/review`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nodes: serializeNodes(nodes),
+          edges: serializeEdges(edges),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Review failed with status ${response.status}`);
+      }
+
+      const result: ReviewResult = await response.json();
+      setReviewResult(result);
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to review architecture",
+      );
+    } finally {
+      setIsReviewing(false);
+    }
+  }, [nodes, edges]);
+
+  const highlightNodes = useCallback((nodeIds: string[]) => {
+    const idSet = new Set(nodeIds);
+    const first = nodeIds[0];
+    setNodes((nds) => {
+      const updated = nds.map((n) => ({ ...n, selected: idSet.has(n.id) }));
+      setSelectedNode(updated.find((n) => n.id === first) ?? null);
+      return updated;
+    });
+  }, []);
 
   const onSelectionChange = useCallback(
     ({ nodes }: OnSelectionChangeParams) => {
@@ -339,6 +379,14 @@ function FlowCanvas() {
           >
             Save
           </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={onReview}
+            disabled={isReviewing}
+          >
+            {isReviewing ? "Reviewing..." : "Review Architecture"}
+          </Button>
           <Button size="sm" onClick={onGenerate} disabled={isGenerating}>
             {isGenerating ? "Generating..." : "Generate Terraform"}
           </Button>
@@ -388,6 +436,11 @@ function FlowCanvas() {
           <TerraformOutput
             result={generateResult}
             onClose={() => setGenerateResult(null)}
+          />
+          <ReviewPanel
+            result={reviewResult}
+            onClose={() => setReviewResult(null)}
+            onSelectNodes={highlightNodes}
           />
         </div>
       </SidebarInset>
