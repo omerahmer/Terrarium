@@ -1,7 +1,8 @@
 import anyio
 from fastapi import FastAPI
 
-from models import GenerateRequest, GenerateResponse
+from models import GenerateRequest, GenerateResponse, ReviewResponse
+from review import run_review
 from terraform_graph import run_generation
 
 app = FastAPI()
@@ -23,6 +24,7 @@ async def generate(body: GenerateRequest):
     return await anyio.to_thread.run_sync(run_generation, canvas)
 
 
-@app.post("/review")
-async def review(body: dict):
-    return {"findings": []}
+@app.post("/review", response_model=ReviewResponse)
+async def review(body: GenerateRequest):
+    canvas = body.model_dump()
+    return await anyio.to_thread.run_sync(run_review, canvas)
