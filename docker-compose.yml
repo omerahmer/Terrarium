@@ -34,6 +34,10 @@ services:
       - "8000:8000"
     environment:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      # Bind IPv4 locally — the `api` container reaches this over the IPv4
+      # `ai` hostname. (Railway uses the Dockerfile default of :: for its
+      # IPv6-only private network.)
+      - UVICORN_HOST=0.0.0.0
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 5s
