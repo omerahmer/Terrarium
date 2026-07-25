@@ -39,11 +39,12 @@ export default function Account() {
     : "—";
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
+    <div className="relative flex min-h-screen flex-col overflow-hidden bg-background text-foreground">
+      <div className="technical-grid pointer-events-none absolute inset-0 opacity-60" />
       {/* Header */}
-      <header className="h-12 border-b border-border flex items-center gap-2 px-4">
+      <header className="relative z-10 flex h-14 items-center gap-2 border-b border-border bg-background/80 px-4 backdrop-blur-xl">
         <Link to="/app" className="flex items-center gap-2 font-semibold text-sm">
-          <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
+          <div className="brand-mark flex size-7 items-center justify-center rounded-lg text-primary-foreground">
             <Leaf className="size-3.5" />
           </div>
           <span className="tracking-tight">Terrarium</span>
@@ -57,15 +58,15 @@ export default function Account() {
         </Button>
       </header>
 
-      <div className="flex-1 flex justify-center px-4 py-10">
-        <Card className="w-full max-w-lg h-fit">
+      <div className="relative z-10 flex flex-1 justify-center px-4 py-12">
+        <Card className="panel-surface h-fit w-full max-w-xl">
           <CardHeader>
             <div className="flex items-center gap-3">
               <Avatar size="lg">
                 <AvatarFallback>{initials(email)}</AvatarFallback>
               </Avatar>
               <div className="min-w-0">
-                <CardTitle className="truncate">{email}</CardTitle>
+                <CardTitle className="truncate text-xl tracking-[-0.025em]">{email}</CardTitle>
                 <CardDescription>Your Terrarium account</CardDescription>
               </div>
             </div>

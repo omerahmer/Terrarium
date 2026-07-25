@@ -26,20 +26,20 @@ export default function VPCNode({
         minWidth={240}
         minHeight={180}
         isVisible={selected}
-        lineStyle={{ stroke: "#6366f1", strokeWidth: 1 }}
+        lineStyle={{ stroke: "var(--primary)", strokeWidth: 1 }}
         handleStyle={{
           width: 8,
           height: 8,
           borderRadius: 2,
-          background: "#6366f1",
+          background: "var(--primary)",
           border: "none",
         }}
       />
 
       {/* Container body */}
-      <div className="w-full h-full rounded-xl border-2 border-dashed border-indigo-400/60 bg-indigo-400/5">
+      <div className="vpc-resource-node h-full w-full rounded-2xl border border-dashed border-primary/45 bg-primary/[0.035] shadow-[inset_0_0_70px_color-mix(in_oklab,var(--primary)_3%,transparent)]">
         {/* Label bar at top */}
-        <div className="flex items-center gap-2 px-3 py-2 border-b border-dashed border-indigo-400/40">
+        <div className="flex items-center gap-2 border-b border-dashed border-primary/25 px-3 py-2.5">
           {data.icon && (
             <img
               src={data.icon}
@@ -47,8 +47,11 @@ export default function VPCNode({
               className="w-5 h-5 shrink-0 pointer-events-none"
             />
           )}
-          <span className="text-xs font-semibold text-indigo-400 tracking-wide select-none">
+          <span className="select-none text-xs font-medium tracking-tight text-primary">
             {data.label}
+          </span>
+          <span className="ml-auto font-mono text-[8px] uppercase tracking-[0.13em] text-primary/60">
+            network boundary
           </span>
         </div>
       </div>

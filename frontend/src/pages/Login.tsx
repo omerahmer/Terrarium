@@ -48,20 +48,25 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center px-4">
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background px-4 text-foreground">
+      <div className="technical-grid absolute inset-0" />
+      <div className="hero-orbit absolute -right-40 -top-40 h-[34rem] w-[34rem] rounded-full" />
       <Link
         to="/"
-        className="flex items-center gap-2 font-semibold mb-6"
+        className="relative z-10 mb-7 flex items-center gap-2.5 font-semibold"
       >
-        <div className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
+        <div className="brand-mark flex size-8 items-center justify-center rounded-lg text-primary-foreground">
           <Leaf className="size-4" />
         </div>
         <span className="tracking-tight">Terrarium</span>
       </Link>
 
-      <Card className="w-full max-w-sm">
-        <CardHeader>
-          <CardTitle>{mode === "signin" ? "Sign in" : "Create account"}</CardTitle>
+      <Card className="panel-surface relative z-10 w-full max-w-md border-border/90">
+        <CardHeader className="pb-2">
+          <span className="font-mono text-[9px] uppercase tracking-[0.15em] text-primary">
+            Workspace access
+          </span>
+          <CardTitle className="mt-2 text-2xl tracking-[-0.035em]">{mode === "signin" ? "Welcome back" : "Create your account"}</CardTitle>
           <CardDescription>
             {mode === "signin"
               ? "Sign in to save and load your projects in the cloud."
@@ -142,7 +147,7 @@ export default function Login() {
 
       <Link
         to="/app"
-        className="mt-6 text-xs text-muted-foreground hover:text-foreground"
+        className="relative z-10 mt-6 text-xs text-muted-foreground transition-colors hover:text-foreground"
       >
         Continue without an account →
       </Link>

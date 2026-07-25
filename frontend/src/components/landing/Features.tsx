@@ -1,113 +1,91 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import {
-  MousePointerClick,
-  Sparkles,
-  ShieldCheck,
-  SearchCode,
+  BadgeDollarSign,
+  Braces,
+  Boxes,
   FileDown,
-  Github,
+  ScanSearch,
+  ShieldCheck,
 } from "lucide-react";
 
 const features = [
   {
-    icon: MousePointerClick,
-    title: "Visual Canvas Designer",
-    description:
-      "Drag, drop, and connect AWS resources on an infinite canvas powered by React Flow. Intuitive and fast.",
-    badge: null,
+    icon: Boxes,
+    eyebrow: "Canvas",
+    title: "An architecture surface, not a form builder",
+    description: "Arrange services spatially, nest resources inside VPCs, and keep complex systems readable as they grow.",
+    className: "md:col-span-2",
   },
   {
-    icon: Sparkles,
-    title: "AI Terraform Generation",
-    description:
-      "Claude reads your diagram and writes production-quality Terraform HCL — with proper resource naming, variables, and outputs.",
-    badge: null,
+    icon: BadgeDollarSign,
+    eyebrow: "Cost",
+    title: "See the monthly shape",
+    description: "A live estimate keeps infrastructure decisions grounded before anything reaches AWS.",
+    className: "",
+  },
+  {
+    icon: Braces,
+    eyebrow: "Generation",
+    title: "Terraform that remains yours",
+    description: "Inspect and edit generated HCL in a real code editor, then export the exact files you reviewed.",
+    className: "",
+  },
+  {
+    icon: ScanSearch,
+    eyebrow: "Review",
+    title: "Architectural feedback in context",
+    description: "Surface security gaps, single points of failure, and cost concerns—then jump directly to the affected nodes.",
+    className: "md:col-span-2",
   },
   {
     icon: ShieldCheck,
-    title: "Validation Loop",
-    description:
-      "A LangGraph agent runs terraform validate on the generated code and sends errors back to Claude to self-correct — up to 3 attempts.",
-    badge: "Coming Soon",
-  },
-  {
-    icon: SearchCode,
-    title: "Architecture Review",
-    description:
-      "A second AI agent checks your diagram for anti-patterns, missing security groups, single points of failure, and cost inefficiencies.",
-    badge: "Coming Soon",
+    eyebrow: "Validation",
+    title: "Typed connections",
+    description: "Relationships follow AWS-aware rules so the diagram expresses a system that makes sense.",
+    className: "",
   },
   {
     icon: FileDown,
-    title: "Export & Deploy",
-    description:
-      "Download your Terraform files as a zip, ready to drop into your repo or run with terraform apply.",
-    badge: "Coming Soon",
-  },
-  {
-    icon: Github,
-    title: "Open Source",
-    description:
-      "Terrarium is fully open source. Self-host it, extend it, and bring your own Anthropic API key.",
-    badge: null,
+    eyebrow: "Ownership",
+    title: "Open source by design",
+    description: "Self-host the full stack, use your own AI credentials, and extend the resource catalog for your team.",
+    className: "md:col-span-2",
   },
 ];
 
 export default function Features() {
   return (
-    <section className="py-24 px-6 bg-muted/30">
-      <div className="mx-auto max-w-6xl">
-        {/* Section header */}
-        <div className="text-center mb-16">
-          <p className="text-sm font-medium text-primary uppercase tracking-widest mb-3">
-            Features
-          </p>
-          <h2 className="text-4xl font-bold tracking-tight text-foreground">
-            Everything you need to ship infrastructure
-          </h2>
-          <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-            Terrarium combines a visual designer with an AI backend to handle
-            the full lifecycle — from diagram to deployed infrastructure.
+    <section id="capabilities" className="relative overflow-hidden px-5 py-24 sm:px-6 lg:py-32">
+      <div className="technical-grid absolute inset-0 -z-10 opacity-60" />
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <span className="section-kicker">Capabilities</span>
+            <h2 className="mt-5 max-w-2xl text-4xl font-semibold leading-[1.04] tracking-[-0.045em] sm:text-5xl">
+              One continuous model, from first node to final file.
+            </h2>
+          </div>
+          <p className="max-w-md text-sm leading-6 text-muted-foreground">
+            The useful parts of diagramming, estimation, review, and generation—kept together in one focused workspace.
           </p>
         </div>
 
-        {/* Feature grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid gap-3 md:grid-cols-3">
           {features.map((feature) => {
             const Icon = feature.icon;
             return (
-              <Card
+              <article
                 key={feature.title}
-                className="group hover:border-primary/50 transition-colors duration-300"
+                className={`panel-sheen group min-h-56 rounded-2xl border border-border bg-card/76 p-6 transition-[border-color,transform,background-color] duration-300 hover:-translate-y-0.5 hover:border-primary/35 hover:bg-card ${feature.className}`}
               >
-                <CardContent className="pt-6 pb-6 px-6 flex flex-col gap-4">
-                  {/* Icon + badge row */}
-                  <div className="flex items-start justify-between">
-                    <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                      <Icon className="size-5" />
-                    </div>
-                    {feature.badge && (
-                      <Badge
-                        variant="secondary"
-                        className="text-xs font-medium"
-                      >
-                        {feature.badge}
-                      </Badge>
-                    )}
+                <div className="flex items-start justify-between">
+                  <div className="flex size-10 items-center justify-center rounded-xl border border-primary/20 bg-primary/[0.08] text-primary">
+                    <Icon className="size-4" />
                   </div>
-
-                  {/* Text */}
-                  <div className="flex flex-col gap-1.5">
-                    <h3 className="font-semibold text-foreground">
-                      {feature.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {feature.description}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+                  <span className="font-mono text-[9px] uppercase tracking-[0.15em] text-muted-foreground">{feature.eyebrow}</span>
+                </div>
+                <h3 className="mt-9 max-w-lg text-xl font-medium tracking-[-0.025em]">{feature.title}</h3>
+                <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">{feature.description}</p>
+              </article>
             );
           })}
         </div>

@@ -40,7 +40,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
-import { Leaf } from "lucide-react";
+import {
+  Boxes,
+  FolderOpen,
+  Gauge,
+  Leaf,
+  Save,
+  ScanSearch,
+  WandSparkles,
+} from "lucide-react";
 import { getDefaultNodeConfig } from "@/lib/aws-schema";
 import {
   buildRelationshipLabel,
@@ -402,24 +410,31 @@ function FlowCanvas() {
   return (
     <SidebarProvider defaultOpen={true}>
       <AppSidebar />
-      <SidebarInset className="flex flex-col h-screen">
+      <SidebarInset className="flex h-screen flex-col overflow-hidden">
         {/* Header */}
-        <header className="shrink-0 h-12 border-b border-border bg-background/80 backdrop-blur-sm flex items-center gap-2 px-3 z-10">
+        <header className="z-20 flex h-14 shrink-0 items-center gap-2 border-b border-border bg-background/82 px-3 backdrop-blur-xl">
           {/* Logo — links back to landing */}
           <Link
             to="/"
             className="flex items-center gap-2 font-semibold text-foreground"
           >
-            <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
+            <div className="brand-mark flex size-7 items-center justify-center rounded-lg text-primary-foreground">
               <Leaf className="size-3.5" />
             </div>
-            <span className="text-sm tracking-tight">Terrarium</span>
+            <span className="hidden text-sm tracking-tight sm:inline">Terrarium</span>
           </Link>
 
           <div className="w-px h-4 bg-border mx-1" />
 
           <SidebarTrigger />
           <ModeToggle />
+
+          <div className="hidden items-center gap-2 rounded-lg border border-border bg-muted/25 px-2.5 py-1.5 lg:flex">
+            <span className="signal-dot size-1.5 rounded-full bg-primary" />
+            <span className="font-mono text-[8px] uppercase tracking-[0.13em] text-muted-foreground">
+              Local canvas · {nodes.length} nodes
+            </span>
+          </div>
 
           {/* Spacer */}
           <div className="flex-1" />
@@ -429,16 +444,20 @@ function FlowCanvas() {
             size="sm"
             variant="outline"
             onClick={() => setTemplatesOpen(true)}
+            title="Open templates"
           >
-            Templates
+            <Boxes className="size-3.5" />
+            <span className="hidden xl:inline">Templates</span>
           </Button>
           {user && (
             <Button
               size="sm"
               variant="outline"
               onClick={() => setProjectsOpen(true)}
+              title="Open saved projects"
             >
-              Projects
+              <FolderOpen className="size-3.5" />
+              <span className="hidden xl:inline">Projects</span>
             </Button>
           )}
           <Button
@@ -448,8 +467,10 @@ function FlowCanvas() {
               saveCanvas(nodes, edges);
               toast.success("Canvas saved!");
             }}
+            title="Save canvas locally"
           >
-            Save
+            <Save className="size-3.5" />
+            <span className="hidden xl:inline">Save</span>
           </Button>
           <Button
             size="sm"
@@ -457,22 +478,30 @@ function FlowCanvas() {
             onClick={() => setCostPanelOpen(true)}
             title="Estimated monthly cost"
           >
-            ~$
+            <Gauge className="size-3.5" />
+            <span className="font-mono text-[10px]">~$
             {costEstimate.monthlyTotal.toLocaleString(undefined, {
               maximumFractionDigits: 0,
             })}
-            /mo
+            /mo</span>
           </Button>
           <Button
             size="sm"
             variant="outline"
             onClick={onReview}
             disabled={isReviewing}
+            title="Review architecture"
           >
-            {isReviewing ? "Reviewing..." : "Review Architecture"}
+            <ScanSearch className="size-3.5" />
+            <span className="hidden 2xl:inline">
+              {isReviewing ? "Reviewing..." : "Review architecture"}
+            </span>
           </Button>
-          <Button size="sm" onClick={onGenerate} disabled={isGenerating}>
-            {isGenerating ? "Generating..." : "Generate Terraform"}
+          <Button size="sm" onClick={onGenerate} disabled={isGenerating} title="Generate Terraform">
+            <WandSparkles className="size-3.5" />
+            <span className="hidden lg:inline">
+              {isGenerating ? "Generating..." : "Generate Terraform"}
+            </span>
           </Button>
           <div className="w-px h-4 bg-border mx-1" />
           <UserMenu />
@@ -480,7 +509,7 @@ function FlowCanvas() {
 
         {/* Canvas fills remaining height */}
         <div
-          className="flex-1 relative overflow-hidden"
+          className="app-canvas relative flex-1 overflow-hidden"
           onDrop={onDrop}
           onDragOver={onDragOver}
         >
@@ -496,9 +525,20 @@ function FlowCanvas() {
             defaultEdgeOptions={defaultEdgeOptions}
             onSelectionChange={onSelectionChange}
           >
-            <Background />
+            <Background gap={24} size={1} />
             <Controls />
           </ReactFlow>
+          {nodes.length === 0 && (
+            <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 w-[min(90%,28rem)] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-border bg-card/78 px-6 py-5 text-center shadow-2xl backdrop-blur-md">
+              <div className="mx-auto mb-3 flex size-10 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
+                <Boxes className="size-4" />
+              </div>
+              <p className="text-sm font-medium tracking-tight">Plant the first resource</p>
+              <p className="mt-1.5 text-xs leading-5 text-muted-foreground">
+                Drag an AWS service from the library. Connect resources to describe how the system works.
+              </p>
+            </div>
+          )}
           <PropertyPanel
             node={selectedNode}
             allNodes={nodes}

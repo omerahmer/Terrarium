@@ -116,14 +116,14 @@ export default function PropertyPanel({
   return (
     <div
       className={[
-        "fixed top-4 bottom-4 right-4 z-50 w-72",
+        "fixed bottom-4 right-4 top-[4.5rem] z-40 w-72",
         "transition-all duration-300 ease-in-out",
         isOpen
           ? "opacity-100 translate-x-0 pointer-events-auto"
           : "opacity-0 translate-x-4 pointer-events-none",
       ].join(" ")}
     >
-      <Card className="shadow-xl border-border bg-card gap-0 py-0 overflow-hidden h-full flex flex-col">
+      <Card className="panel-surface flex h-full flex-col gap-0 overflow-hidden rounded-2xl border-border bg-card/94 py-0 shadow-2xl">
         {/* Header */}
         <CardHeader className="px-4 py-3 border-b border-border">
           <div className="flex items-center justify-between">
@@ -318,7 +318,7 @@ export default function PropertyPanel({
                           onChange={(e) =>
                             updateConfig(property.key, e.target.value)
                           }
-                          className="h-9 w-full rounded-md border border-border bg-muted px-2 text-sm text-foreground"
+                          className="h-10 w-full rounded-lg border border-border bg-muted/60 px-2 text-sm text-foreground outline-none transition-shadow focus:ring-3 focus:ring-ring/20"
                         >
                           <option value="">Select an option</option>
                           {options.map((option) => (

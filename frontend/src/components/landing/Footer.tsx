@@ -1,45 +1,41 @@
 import { Link } from "react-router-dom";
-import { Separator } from "@/components/ui/separator";
-import { Github, Leaf } from "lucide-react";
+import { ArrowUpRight, Github, Leaf } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Footer() {
   return (
-    <footer className="py-12 px-6">
-      <div className="mx-auto max-w-6xl">
-        <Separator className="mb-10" />
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          {/* Logo + tagline */}
-          <div className="flex flex-col sm:flex-row items-center gap-3">
-            <Link
-              to="/"
-              className="flex items-center gap-2 font-semibold text-foreground"
-            >
-              <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-                <Leaf className="size-3.5" />
+    <footer className="border-t border-border px-5 py-10 sm:px-6">
+      <div className="mx-auto flex max-w-7xl flex-col gap-8">
+        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
+          <div>
+            <Link to="/" className="inline-flex items-center gap-2.5 font-semibold">
+              <div className="brand-mark flex size-8 items-center justify-center rounded-lg text-primary-foreground">
+                <Leaf className="size-4" />
               </div>
-              <span className="tracking-tight">Terrarium</span>
+              <span>Terrarium</span>
             </Link>
-            <Separator orientation="vertical" className="hidden sm:block h-4" />
-            <span className="text-sm text-muted-foreground text-center sm:text-left">
-              Built with Claude + React Flow. Open source, forever.
-            </span>
+            <p className="mt-3 text-sm text-muted-foreground">Grow an AWS architecture. Leave with the code.</p>
           </div>
+          <Button asChild variant="outline">
+            <Link to="/app">
+              Open the canvas
+              <ArrowUpRight className="size-3.5" />
+            </Link>
+          </Button>
+        </div>
 
-          {/* GitHub link */}
+        <div className="flex flex-col justify-between gap-3 border-t border-border pt-5 text-[11px] text-muted-foreground sm:flex-row sm:items-center">
+          <span>© {new Date().getFullYear()} Terrarium · Open source under MIT</span>
           <a
             href="https://github.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-1.5 transition-colors hover:text-foreground"
           >
-            <Github className="size-4" />
-            GitHub
+            <Github className="size-3.5" />
+            Source on GitHub
           </a>
         </div>
-
-        <p className="mt-6 text-center text-xs text-muted-foreground/60">
-          © {new Date().getFullYear()} Terrarium. MIT License.
-        </p>
       </div>
     </footer>
   );

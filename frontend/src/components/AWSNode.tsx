@@ -10,21 +10,7 @@ export default function AWSNode({
   data,
 }: NodeProps<Node<AwsResourceNodeData, "aws-resource">>) {
   return (
-    <div
-      style={{
-        padding: "12px 16px",
-        background: "#1e293b",
-        border: "2px solid #475569",
-        borderRadius: "8px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "8px",
-        minWidth: "120px",
-        cursor: "pointer",
-        transition: "border-color 0.2s",
-      }}
-    >
+    <div className="aws-resource-node cursor-pointer p-3">
       <Handle type="source" position={Position.Top} id="top-source" />
       <Handle
         type="target"
@@ -56,16 +42,20 @@ export default function AWSNode({
         id="right-target"
         style={{ opacity: 0 }}
       />
-      <img src={data.icon} alt={data.label} />
-      <span
-        style={{
-          color: "#e2e8f0",
-          fontSize: "13px",
-          fontWeight: "600",
-          textAlign: "center",
-        }}
-      >
+      <div className="mb-2 flex items-start justify-between gap-3">
+        <div className="flex size-9 items-center justify-center rounded-lg border border-border bg-background/50">
+          <img src={data.icon} alt="" className="size-6 object-contain" />
+        </div>
+        <span className="mt-1 flex items-center gap-1 font-mono text-[8px] uppercase tracking-[0.11em] text-primary">
+          <span className="size-1 rounded-full bg-primary" />
+          active
+        </span>
+      </div>
+      <span className="block max-w-28 truncate text-left text-[12px] font-medium text-foreground">
         {data.label}
+      </span>
+      <span className="mt-1 block truncate font-mono text-[8px] uppercase tracking-[0.08em] text-muted-foreground">
+        {data.resourceType.replace("aws-", "")}
       </span>
     </div>
   );

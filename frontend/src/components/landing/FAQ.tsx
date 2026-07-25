@@ -4,80 +4,57 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
 const faqs = [
   {
-    question: "What is Terrarium?",
-    answer:
-      "Terrarium is a visual AWS infrastructure designer. You drag AWS resources onto a canvas, connect them to define relationships, and the AI generates production-ready Terraform HCL from your diagram. It's designed for engineers who want to move fast without hand-writing infrastructure code.",
+    question: "What does Terrarium produce?",
+    answer: "Terrarium turns the resources and relationships on your canvas into editable Terraform HCL. The generated project includes the files you expect—resources, variables, and outputs—ready to inspect before export.",
   },
   {
-    question: "Do I need to know Terraform to use Terrarium?",
-    answer:
-      "No. Terrarium is designed so you can design infrastructure visually and get valid Terraform as output without writing a single line of HCL yourself. That said, the Monaco editor lets you inspect and edit the generated code if you want full control.",
+    question: "Do I need to know Terraform?",
+    answer: "No. You can design the system visually and use the generated files as your starting point. If you do know Terraform, the built-in editor keeps you in control of every line before download.",
   },
   {
     question: "Which AWS services are supported?",
-    answer:
-      "Terrarium currently supports 20+ AWS services including EC2, VPC, S3, RDS, Lambda, ECS, ECR, IAM, CloudWatch, SNS, SQS, API Gateway, DynamoDB, ALB, NLB, ELB, Route 53, CloudFront, EBS, EFS, and ElastiCache. More services are added regularly.",
+    answer: "The current catalog covers the core compute, networking, database, storage, security, and integration services—including EC2, VPC, RDS, Lambda, S3, ECS, IAM, SQS, CloudFront, and more.",
   },
   {
-    question: "Is my infrastructure data sent anywhere?",
-    answer:
-      "Your canvas diagram is sent to your own backend (Go API) which forwards it to your own Python AI service. That service calls the Anthropic API using your own API key. Nothing is stored on any third-party server. If you self-host Terrarium, all data stays entirely within your own infrastructure.",
+    question: "How is infrastructure data handled?",
+    answer: "The project is open source and self-hostable. When you run your own stack, diagrams move through your own API and AI service using credentials you control.",
   },
   {
-    question: "Does the generated Terraform actually work?",
-    answer:
-      "Terrarium includes a LangGraph validation agent that runs terraform validate on the generated code and sends any errors back to Claude to self-correct — looping up to 3 times until the code is valid. This is currently in development and will ship in a future release.",
-  },
-  {
-    question: "Is Terrarium free to use?",
-    answer:
-      "Yes. Terrarium is fully open source and free to self-host. You only need an Anthropic API key for the AI generation features, which is billed directly by Anthropic based on your usage. There is no Terrarium subscription or usage fee.",
+    question: "Are the cost numbers exact?",
+    answer: "They are directional estimates based on modeled on-demand pricing. They help compare architectural choices, but they do not include every request charge, discount, tax, or data-transfer scenario.",
   },
 ];
 
 export default function FAQ() {
   return (
-    <section className="py-24 px-6">
-      <div className="mx-auto max-w-3xl">
-        {/* Section header */}
-        <div className="text-center mb-12">
-          <p className="text-sm font-medium text-primary uppercase tracking-widest mb-3">
-            FAQ
-          </p>
-          <h2 className="text-4xl font-bold tracking-tight text-foreground">
-            Frequently asked questions
-          </h2>
-          <p className="mt-4 text-muted-foreground">
-            Everything you need to know about Terrarium.
+    <section id="faq" className="border-t border-border bg-card/30 px-5 py-24 sm:px-6 lg:py-32">
+      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-24">
+        <div>
+          <span className="section-kicker">Field notes</span>
+          <h2 className="mt-5 text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">Before you plant the first node.</h2>
+          <p className="mt-5 max-w-sm text-sm leading-6 text-muted-foreground">
+            A few practical answers about output, ownership, and what Terrarium understands today.
           </p>
         </div>
 
-        <Card>
-          <CardHeader className="pb-0">
-            <CardTitle className="text-base">Common questions</CardTitle>
-            <CardDescription>
-              Can't find what you're looking for? Open an issue on GitHub.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="pt-4">
-            <Accordion type="single" collapsible className="w-full">
-              {faqs.map((faq, index) => (
-                <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger className="text-left text-sm font-medium">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-sm text-muted-foreground leading-relaxed">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </CardContent>
-        </Card>
+        <Accordion type="single" collapsible className="w-full border-y border-border">
+          {faqs.map((faq, index) => (
+            <AccordionItem key={faq.question} value={`item-${index}`} className="border-border">
+              <AccordionTrigger className="py-5 text-left text-base font-medium tracking-[-0.015em] hover:no-underline hover:text-primary">
+                <span className="flex items-center gap-4">
+                  <span className="font-mono text-[9px] tracking-wider text-muted-foreground">0{index + 1}</span>
+                  {faq.question}
+                </span>
+              </AccordionTrigger>
+              <AccordionContent className="pb-6 pl-9 text-sm leading-6 text-muted-foreground">
+                {faq.answer}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
     </section>
   );
